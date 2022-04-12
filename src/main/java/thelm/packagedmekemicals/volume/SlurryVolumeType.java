@@ -9,6 +9,8 @@ import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
@@ -33,6 +35,11 @@ public class SlurryVolumeType implements IVolumeType {
 	@Override
 	public Class<?> getTypeClass() {
 		return SlurryStack.class;
+	}
+
+	@Override
+	public MutableComponent getDisplayName() {
+		return new TranslatableComponent("volume.packagedmekemicals.mekanism.slurry");
 	}
 
 	@Override
