@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import mekanism.api.Action;
 import mekanism.api.chemical.ChemicalStack;
-import mekanism.api.chemical.IChemicalHandler;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import mekanism.api.chemical.infuse.IInfusionHandler;
@@ -80,33 +79,30 @@ public class ChemicalHelper {
 		return Optional.empty();
 	}
 
-	public LazyOptional<? extends IChemicalHandler<?, ?>> getChemicalHandler(ItemStack itemStack) {
-		LazyOptional<? extends IChemicalHandler<?, ?>> optional;
-		optional = getGasHandler(itemStack);
-		if(optional.isPresent()) {
-			return optional;
-		}
-		optional = getInfusionHandler(itemStack);
-		if(optional.isPresent()) {
-			return optional;
-		}
-		optional = getPigmentHandler(itemStack);
-		if(optional.isPresent()) {
-			return optional;
-		}
-		optional = getSlurryHandler(itemStack);
-		if(optional.isPresent()) {
-			return optional;
-		}
-		return LazyOptional.empty();
+	public boolean hasChemicalHandler(ItemStack itemStack) {
+		return getGasHandler(itemStack).isPresent() ||
+				getInfusionHandler(itemStack).isPresent() ||
+				getPigmentHandler(itemStack).isPresent() ||
+				getSlurryHandler(itemStack).isPresent();
 	}
 
 	public Optional<? extends ChemicalStack<?>> getChemicalContained(ItemStack container) {
-		if(!container.isEmpty()) {
-			container = ItemHandlerHelper.copyStackWithSize(container, 1);
-			return getChemicalHandler(container).
-					map(handler->handler.extractChemical(Long.MAX_VALUE, Action.SIMULATE)).
-					filter(stack->!stack.isEmpty());
+		Optional<? extends ChemicalStack<?>> optional;
+		optional = getGasContained(container);
+		if(optional.isPresent()) {
+			return optional;
+		}
+		optional = getInfusionContained(container);
+		if(optional.isPresent()) {
+			return optional;
+		}
+		optional = getPigmentContained(container);
+		if(optional.isPresent()) {
+			return optional;
+		}
+		optional = getSlurryContained(container);
+		if(optional.isPresent()) {
+			return optional;
 		}
 		return Optional.empty();
 	}
