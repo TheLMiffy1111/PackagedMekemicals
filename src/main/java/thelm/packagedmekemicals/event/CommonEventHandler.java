@@ -11,7 +11,11 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import thelm.packagedauto.util.ApiImpl;
+import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
+import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
 import thelm.packagedmekemicals.config.PackagedMekemicalsConfig;
+import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
+import thelm.packagedmekemicals.network.PacketHandler;
 import thelm.packagedmekemicals.volume.GasVolumeType;
 import thelm.packagedmekemicals.volume.InfusionVolumeType;
 import thelm.packagedmekemicals.volume.PigmentVolumeType;
@@ -33,21 +37,25 @@ public class CommonEventHandler {
 	@SubscribeEvent
 	public void onBlockRegister(RegistryEvent.Register<Block> event) {
 		IForgeRegistry<Block> registry = event.getRegistry();
+		registry.register(ChemicalPackageFillerBlock.INSTANCE);
 	}
 
 	@SubscribeEvent
 	public void onItemRegister(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
+		registry.register(ChemicalPackageFillerBlock.ITEM_INSTANCE);
 	}
 
 	@SubscribeEvent
 	public void onBlockEntityRegister(RegistryEvent.Register<BlockEntityType<?>> event) {
 		IForgeRegistry<BlockEntityType<?>> registry = event.getRegistry();
+		registry.register(ChemicalPackageFillerBlockEntity.TYPE_INSTANCE);
 	}
 
 	@SubscribeEvent
 	public void onMenuTypeRegister(RegistryEvent.Register<MenuType<?>> event) {
 		IForgeRegistry<MenuType<?>> registry = event.getRegistry();
+		registry.register(ChemicalPackageFillerMenu.TYPE_INSTANCE);
 	}
 
 	@SubscribeEvent
@@ -56,16 +64,15 @@ public class CommonEventHandler {
 		ApiImpl.INSTANCE.registerVolumeType(InfusionVolumeType.INSTANCE);
 		ApiImpl.INSTANCE.registerVolumeType(PigmentVolumeType.INSTANCE);
 		ApiImpl.INSTANCE.registerVolumeType(SlurryVolumeType.INSTANCE);
+
+		PacketHandler.registerPackets();
 	}
 
 	@SubscribeEvent
 	public void onModConfig(ModConfigEvent event) {
 		switch(event.getConfig().getType()) {
-		case SERVER:
-			PackagedMekemicalsConfig.reloadServerConfig();
-			break;
-		default:
-			break;
+		case SERVER -> PackagedMekemicalsConfig.reloadServerConfig();
+		default -> {}
 		}
 	}
 }

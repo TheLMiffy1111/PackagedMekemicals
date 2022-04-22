@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "side": "packagedmekemicals:blocks/chemical_package_filler_side",
+        "top": "packagedmekemicals:blocks/chemical_package_filler_top",
+        "bottom": "packagedmekemicals:blocks/chemical_package_filler_bottom"
+    }
+}

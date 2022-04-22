@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "packagedmekemicals:block/chemical_package_filler" }
+    }
+}

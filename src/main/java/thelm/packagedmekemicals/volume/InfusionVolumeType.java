@@ -16,11 +16,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.items.ItemHandlerHelper;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.capability.StackInfusionHandlerItem;
 import thelm.packagedmekemicals.client.ChemicalRenderer;
+import thelm.packagedmekemicals.util.ChemicalHelper;
 
 public class InfusionVolumeType implements IVolumeType {
 
@@ -62,20 +62,13 @@ public class InfusionVolumeType implements IVolumeType {
 
 	@Override
 	public Optional<IVolumeStackWrapper> getStackContained(ItemStack container) {
-		if(!container.isEmpty()) {
-			container = ItemHandlerHelper.copyStackWithSize(container, 1);
-			return container.getCapability(Capabilities.INFUSION_HANDLER_CAPABILITY).
-					map(handler->handler.extractChemical(Long.MAX_VALUE, Action.SIMULATE)).
-					filter(stack->!stack.isEmpty()).
-					map(InfusionStackWrapper::new);
-		}
-		return Optional.empty();
+		return ChemicalHelper.INSTANCE.getInfusionContained(container).map(InfusionStackWrapper::new);
 	}
 
 	@Override
 	public void setStack(ItemStack stack, IVolumeStackWrapper volumeStack) {
 		if(volumeStack instanceof InfusionStackWrapper infusionStack) {
-			stack.getCapability(Capabilities.INFUSION_HANDLER_CAPABILITY).ifPresent(handler->{
+			ChemicalHelper.INSTANCE.getInfusionHandler(stack).ifPresent(handler->{
 				if(handler instanceof StackInfusionHandlerItem vHandler) {
 					vHandler.setInfusion(infusionStack.stack());
 				}
@@ -101,6 +94,21 @@ public class InfusionVolumeType implements IVolumeType {
 	@Override
 	public boolean hasBlockCapability(ICapabilityProvider capProvider, Direction direction) {
 		return capProvider.getCapability(Capabilities.INFUSION_HANDLER_CAPABILITY, direction).isPresent();
+	}
+
+	@Override
+	public boolean isEmpty(ICapabilityProvider capProvider, Direction direction) {
+		return capProvider.getCapability(Capabilities.INFUSION_HANDLER_CAPABILITY, direction).map(handler->{
+			if(handler.getTanks() == 0) {
+				return false;
+			}
+			for(int i = 0; i < handler.getTanks(); ++i) {
+				if(!handler.getChemicalInTank(i).isEmpty()) {
+					return false;
+				}
+			}
+			return true;
+		}).orElse(false);	
 	}
 
 	@Override
