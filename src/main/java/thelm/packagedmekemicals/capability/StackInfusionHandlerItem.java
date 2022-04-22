@@ -70,7 +70,7 @@ public class StackInfusionHandlerItem implements IInfusionHandler {
 	@Override
 	public InfusionStack extractChemical(int tank, long maxDrain, Action action) {
 		InfusionStack infusionStack = getInfusion();
-		if(tank != 0 || container.getCount() != 1 || maxDrain < infusionStack.getAmount()) {
+		if(tank != 0 || maxDrain < infusionStack.getAmount()) {
 			return InfusionStack.EMPTY;
 		}
 		if(!infusionStack.isEmpty()) {

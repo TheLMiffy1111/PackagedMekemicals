@@ -70,7 +70,7 @@ public class StackSlurryHandlerItem implements ISlurryHandler {
 	@Override
 	public SlurryStack extractChemical(int tank, long maxDrain, Action action) {
 		SlurryStack slurryStack = getSlurry();
-		if(tank != 0 || container.getCount() != 1 || maxDrain < slurryStack.getAmount()) {
+		if(tank != 0 || maxDrain < slurryStack.getAmount()) {
 			return SlurryStack.EMPTY;
 		}
 		if(!slurryStack.isEmpty()) {

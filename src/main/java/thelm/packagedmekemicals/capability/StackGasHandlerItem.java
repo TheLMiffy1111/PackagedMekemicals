@@ -70,7 +70,7 @@ public class StackGasHandlerItem implements IGasHandler {
 	@Override
 	public GasStack extractChemical(int tank, long maxDrain, Action action) {
 		GasStack gasStack = getGas();
-		if(tank != 0 || container.getCount() != 1 || maxDrain < gasStack.getAmount()) {
+		if(tank != 0 || maxDrain < gasStack.getAmount()) {
 			return GasStack.EMPTY;
 		}
 		if(!gasStack.isEmpty()) {

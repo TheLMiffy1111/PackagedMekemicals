@@ -70,7 +70,7 @@ public class StackPigmentHandlerItem implements IPigmentHandler {
 	@Override
 	public PigmentStack extractChemical(int tank, long maxDrain, Action action) {
 		PigmentStack pigmentStack = getPigment();
-		if(tank != 0 || container.getCount() != 1 || maxDrain < pigmentStack.getAmount()) {
+		if(tank != 0 || maxDrain < pigmentStack.getAmount()) {
 			return PigmentStack.EMPTY;
 		}
 		if(!pigmentStack.isEmpty()) {
