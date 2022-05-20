@@ -80,7 +80,7 @@ public class ChemicalRenderer {
 	}
 
 	private void drawChemical(PoseStack poseStack, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
-		if(chemicalStack == null) {
+		if(capacity <= 0 || chemicalStack == null) {
 			return;
 		}
 		Chemical<?> chemical = chemicalStack.getType();
