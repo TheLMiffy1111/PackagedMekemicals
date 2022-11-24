@@ -27,6 +27,6 @@ description="A PackagedAuto addon that adds Mekanism chemical support."
 [[dependencies.packagedmekemicals]]
     modId="mekanism"
     mandatory=true
-    versionRange="[10.2.0,)"
+    versionRange="[10.2.3,)"
     ordering="NONE"
     side="BOTH"
