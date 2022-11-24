@@ -109,7 +109,7 @@ public class InfusionVolumeType implements IVolumeType {
 				}
 			}
 			return true;
-		}).orElse(false);	
+		}).orElse(false);
 	}
 
 	@Override

@@ -18,7 +18,7 @@ import thelm.packagedmekemicals.network.packet.SetChemicalAmountPacket;
 public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFillerMenu> {
 
 	public static final ResourceLocation BACKGROUND = new ResourceLocation("packagedmekemicals:textures/gui/chemical_package_filler.png");
-	public static final ChemicalRenderer CHEMICAL_RENDERER = new ChemicalRenderer(16, 52, 1);	
+	public static final ChemicalRenderer CHEMICAL_RENDERER = new ChemicalRenderer(16, 52, 1);
 
 	protected EditBox amountField;
 

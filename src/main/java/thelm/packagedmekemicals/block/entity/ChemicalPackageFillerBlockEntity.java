@@ -38,7 +38,7 @@ import thelm.packagedmekemicals.util.ChemicalHelper;
 
 public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 
-	public static final BlockEntityType<ChemicalPackageFillerBlockEntity> TYPE_INSTANCE = (BlockEntityType<ChemicalPackageFillerBlockEntity>)BlockEntityType.Builder.
+	public static final BlockEntityType<ChemicalPackageFillerBlockEntity> TYPE_INSTANCE = BlockEntityType.Builder.
 			of(ChemicalPackageFillerBlockEntity::new, ChemicalPackageFillerBlock.INSTANCE).build(null);
 
 	public static int energyCapacity = 5000;

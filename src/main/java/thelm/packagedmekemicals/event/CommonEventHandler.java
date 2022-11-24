@@ -44,11 +44,11 @@ public class CommonEventHandler {
 		itemRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlock.ITEM_INSTANCE);
 
 		DeferredRegister<BlockEntityType<?>> blockEntityRegister = DeferredRegister.create(Registry.BLOCK_ENTITY_TYPE_REGISTRY, "packagedmekemicals");
-		blockEntityRegister.register(modEventBus);	
+		blockEntityRegister.register(modEventBus);
 		blockEntityRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlockEntity.TYPE_INSTANCE);
 
 		DeferredRegister<MenuType<?>> menuRegister = DeferredRegister.create(Registry.MENU_REGISTRY, "packagedmekemicals");
-		menuRegister.register(modEventBus);	
+		menuRegister.register(modEventBus);
 		menuRegister.register("chemical_package_filler", ()->ChemicalPackageFillerMenu.TYPE_INSTANCE);
 	}
 
