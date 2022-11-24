@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 
@@ -59,7 +58,7 @@ public record SlurryStackWrapper(SlurryStack stack) implements IVolumeStackWrapp
 
 	@Override
 	public Component getAmountDesc() {
-		return new TextComponent(stack.getAmount()+"mB");
+		return Component.literal(stack.getAmount()+"mB");
 	}
 
 	@Override

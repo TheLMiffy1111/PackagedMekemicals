@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.FluidType;
 
 // Code from Refined Storage, modified for chemicals
 public class ChemicalRenderer {
@@ -69,7 +69,7 @@ public class ChemicalRenderer {
 	}
 
 	public void render(PoseStack poseStack, int xPosition, int yPosition, ChemicalStack<?> chemicalStack) {
-		render(poseStack, xPosition, yPosition, chemicalStack, FluidAttributes.BUCKET_VOLUME);
+		render(poseStack, xPosition, yPosition, chemicalStack, FluidType.BUCKET_VOLUME);
 	}
 
 	public void render(PoseStack poseStack, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {

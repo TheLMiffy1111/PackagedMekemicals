@@ -10,8 +10,8 @@ import mekanism.api.chemical.gas.GasStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
@@ -40,7 +40,7 @@ public class GasVolumeType implements IVolumeType {
 
 	@Override
 	public MutableComponent getDisplayName() {
-		return new TranslatableComponent("volume.packagedmekemicals.mekanism.gas");
+		return Component.translatable("volume.packagedmekemicals.mekanism.gas");
 	}
 
 	@Override
@@ -89,17 +89,17 @@ public class GasVolumeType implements IVolumeType {
 
 	@Override
 	public Capability getItemCapability() {
-		return Capabilities.GAS_HANDLER_CAPABILITY;
+		return Capabilities.GAS_HANDLER;
 	}
 
 	@Override
 	public boolean hasBlockCapability(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.GAS_HANDLER_CAPABILITY, direction).isPresent();
+		return capProvider.getCapability(Capabilities.GAS_HANDLER, direction).isPresent();
 	}
 
 	@Override
 	public boolean isEmpty(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.GAS_HANDLER_CAPABILITY, direction).map(handler->{
+		return capProvider.getCapability(Capabilities.GAS_HANDLER, direction).map(handler->{
 			if(handler.getTanks() == 0) {
 				return false;
 			}
@@ -116,7 +116,7 @@ public class GasVolumeType implements IVolumeType {
 	public int fill(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof GasStackWrapper gasStack) {
 			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.GAS_HANDLER_CAPABILITY, direction).
+			return capProvider.getCapability(Capabilities.GAS_HANDLER, direction).
 					map(handler->handler.insertChemical(gasStack.stack(), action)).
 					map(stack->gasStack.getAmount()-stack.getAmount()).orElse(0L).intValue();
 		}
@@ -127,7 +127,7 @@ public class GasVolumeType implements IVolumeType {
 	public IVolumeStackWrapper drain(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof GasStackWrapper gasStack) {
 			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.GAS_HANDLER_CAPABILITY, direction).
+			return capProvider.getCapability(Capabilities.GAS_HANDLER, direction).
 					map(handler->handler.extractChemical(gasStack.stack(), action)).
 					map(GasStackWrapper::new).orElse(GasStackWrapper.EMPTY);
 		}

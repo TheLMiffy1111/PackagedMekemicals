@@ -1,15 +1,16 @@
 package thelm.packagedmekemicals.event;
 
+import net.minecraft.core.Registry;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.DeferredRegister;
 import thelm.packagedauto.util.ApiImpl;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
@@ -30,32 +31,25 @@ public class CommonEventHandler {
 	}
 
 	public void onConstruct() {
-		FMLJavaModLoadingContext.get().getModEventBus().register(this);
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		modEventBus.register(this);
 		PackagedMekemicalsConfig.registerConfig();
-	}
 
-	@SubscribeEvent
-	public void onBlockRegister(RegistryEvent.Register<Block> event) {
-		IForgeRegistry<Block> registry = event.getRegistry();
-		registry.register(ChemicalPackageFillerBlock.INSTANCE);
-	}
+		DeferredRegister<Block> blockRegister = DeferredRegister.create(Registry.BLOCK_REGISTRY, "packagedmekemicals");
+		blockRegister.register(modEventBus);
+		blockRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlock.INSTANCE);
 
-	@SubscribeEvent
-	public void onItemRegister(RegistryEvent.Register<Item> event) {
-		IForgeRegistry<Item> registry = event.getRegistry();
-		registry.register(ChemicalPackageFillerBlock.ITEM_INSTANCE);
-	}
+		DeferredRegister<Item> itemRegister = DeferredRegister.create(Registry.ITEM_REGISTRY, "packagedmekemicals");
+		itemRegister.register(modEventBus);
+		itemRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlock.ITEM_INSTANCE);
 
-	@SubscribeEvent
-	public void onBlockEntityRegister(RegistryEvent.Register<BlockEntityType<?>> event) {
-		IForgeRegistry<BlockEntityType<?>> registry = event.getRegistry();
-		registry.register(ChemicalPackageFillerBlockEntity.TYPE_INSTANCE);
-	}
+		DeferredRegister<BlockEntityType<?>> blockEntityRegister = DeferredRegister.create(Registry.BLOCK_ENTITY_TYPE_REGISTRY, "packagedmekemicals");
+		blockEntityRegister.register(modEventBus);	
+		blockEntityRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlockEntity.TYPE_INSTANCE);
 
-	@SubscribeEvent
-	public void onMenuTypeRegister(RegistryEvent.Register<MenuType<?>> event) {
-		IForgeRegistry<MenuType<?>> registry = event.getRegistry();
-		registry.register(ChemicalPackageFillerMenu.TYPE_INSTANCE);
+		DeferredRegister<MenuType<?>> menuRegister = DeferredRegister.create(Registry.MENU_REGISTRY, "packagedmekemicals");
+		menuRegister.register(modEventBus);	
+		menuRegister.register("chemical_package_filler", ()->ChemicalPackageFillerMenu.TYPE_INSTANCE);
 	}
 
 	@SubscribeEvent

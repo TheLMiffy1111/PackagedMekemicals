@@ -12,8 +12,7 @@ import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
 public class ChemicalPackageFillerMenu extends BaseMenu<ChemicalPackageFillerBlockEntity> {
 
 	public static final MenuType<ChemicalPackageFillerMenu> TYPE_INSTANCE = (MenuType<ChemicalPackageFillerMenu>)IForgeMenuType.
-			create(new PositionalBlockEntityMenuFactory<>(ChemicalPackageFillerMenu::new)).
-			setRegistryName("packagedmekemicals:chemical_package_filler");
+			create(new PositionalBlockEntityMenuFactory<>(ChemicalPackageFillerMenu::new));
 
 	public ChemicalPackageFillerMenu(int windowId, Inventory inventory, ChemicalPackageFillerBlockEntity blockEntity) {
 		super(TYPE_INSTANCE, windowId, inventory, blockEntity);

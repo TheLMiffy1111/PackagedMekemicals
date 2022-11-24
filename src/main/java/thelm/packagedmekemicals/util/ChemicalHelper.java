@@ -24,7 +24,7 @@ public class ChemicalHelper {
 	private ChemicalHelper() {}
 
 	public LazyOptional<IGasHandler> getGasHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.GAS_HANDLER_CAPABILITY);
+		return itemStack.getCapability(Capabilities.GAS_HANDLER);
 	}
 
 	public Optional<GasStack> getGasContained(ItemStack container) {
@@ -38,7 +38,7 @@ public class ChemicalHelper {
 	}
 
 	public LazyOptional<IInfusionHandler> getInfusionHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.INFUSION_HANDLER_CAPABILITY);
+		return itemStack.getCapability(Capabilities.INFUSION_HANDLER);
 	}
 
 	public Optional<InfusionStack> getInfusionContained(ItemStack container) {
@@ -52,7 +52,7 @@ public class ChemicalHelper {
 	}
 
 	public LazyOptional<IPigmentHandler> getPigmentHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.PIGMENT_HANDLER_CAPABILITY);
+		return itemStack.getCapability(Capabilities.PIGMENT_HANDLER);
 	}
 
 	public Optional<PigmentStack> getPigmentContained(ItemStack container) {
@@ -66,7 +66,7 @@ public class ChemicalHelper {
 	}
 
 	public LazyOptional<ISlurryHandler> getSlurryHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.SLURRY_HANDLER_CAPABILITY);
+		return itemStack.getCapability(Capabilities.SLURRY_HANDLER);
 	}
 
 	public Optional<SlurryStack> getSlurryContained(ItemStack container) {

@@ -2,7 +2,7 @@ package thelm.packagedmekemicals.inventory;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import thelm.packagedauto.inventory.BaseItemHandler;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
@@ -18,7 +18,7 @@ public class ChemicalPackageFillerItemHandler extends BaseItemHandler<ChemicalPa
 	public boolean isItemValid(int index, ItemStack stack) {
 		return switch(index) {
 		case 1 -> false;
-		case 2 -> stack.getCapability(CapabilityEnergy.ENERGY).isPresent();
+		case 2 -> stack.getCapability(ForgeCapabilities.ENERGY).isPresent();
 		default -> (blockEntity.isWorking ? !getStackInSlot(index).isEmpty() : true) && ChemicalHelper.INSTANCE.hasChemicalHandler(stack);
 		};
 	}
