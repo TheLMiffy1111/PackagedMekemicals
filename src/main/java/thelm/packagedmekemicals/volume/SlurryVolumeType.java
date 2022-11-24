@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.Action;
+import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
@@ -54,7 +55,7 @@ public class SlurryVolumeType implements IVolumeType {
 
 	@Override
 	public Optional<IVolumeStackWrapper> wrapStack(Object volumeStack) {
-		if(volumeStack instanceof SlurryStack slurryStack) {
+		if(volumeStack instanceof SlurryStack slurryStack && ChemicalAttributeValidator.DEFAULT.process(slurryStack)) {
 			return Optional.of(new SlurryStackWrapper(slurryStack));
 		}
 		return Optional.empty();

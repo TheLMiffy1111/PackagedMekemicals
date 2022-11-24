@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.Action;
+import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.pigment.PigmentStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
@@ -54,7 +55,7 @@ public class PigmentVolumeType implements IVolumeType {
 
 	@Override
 	public Optional<IVolumeStackWrapper> wrapStack(Object volumeStack) {
-		if(volumeStack instanceof PigmentStack pigmentStack) {
+		if(volumeStack instanceof PigmentStack pigmentStack && ChemicalAttributeValidator.DEFAULT.process(pigmentStack)) {
 			return Optional.of(new PigmentStackWrapper(pigmentStack));
 		}
 		return Optional.empty();

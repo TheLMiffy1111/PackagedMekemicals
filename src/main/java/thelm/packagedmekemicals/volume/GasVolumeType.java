@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.Action;
+import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
@@ -54,7 +55,7 @@ public class GasVolumeType implements IVolumeType {
 
 	@Override
 	public Optional<IVolumeStackWrapper> wrapStack(Object volumeStack) {
-		if(volumeStack instanceof GasStack gasStack) {
+		if(volumeStack instanceof GasStack gasStack && ChemicalAttributeValidator.DEFAULT.process(gasStack)) {
 			return Optional.of(new GasStackWrapper(gasStack));
 		}
 		return Optional.empty();

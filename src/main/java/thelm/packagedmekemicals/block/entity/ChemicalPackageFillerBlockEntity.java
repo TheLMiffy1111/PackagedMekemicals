@@ -129,7 +129,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 		}
 		ItemStack slotStack = itemHandler.getStackInSlot(1);
 		ItemStack outputStack = VolumePackageItem.tryMakeVolumePackage(currentChemical);
-		return slotStack.isEmpty() || slotStack.getItem() == outputStack.getItem() && ItemStack.isSameItemSameTags(slotStack, outputStack) && slotStack.getCount()+1 <= outputStack.getMaxStackSize();
+		return !outputStack.isEmpty() && (slotStack.isEmpty() || slotStack.getItem() == outputStack.getItem() && ItemStack.isSameItemSameTags(slotStack, outputStack) && slotStack.getCount()+1 <= outputStack.getMaxStackSize());
 	}
 
 	protected boolean canFinish() {
