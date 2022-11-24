@@ -7,7 +7,7 @@ import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
 
 public class PackagedMekemicalsConfig {
 
-	private PackagedMekemicalsConfig() {};
+	private PackagedMekemicalsConfig() {}
 
 	private static ForgeConfigSpec serverSpec;
 
@@ -31,7 +31,7 @@ public class PackagedMekemicalsConfig {
 		builder.comment("How much FE/t maximum the Chemical Package Filler can use.");
 		chemicalPackageFillerEnergyUsage = builder.defineInRange("energy_usage", 100, 0, Integer.MAX_VALUE);
 		builder.pop();
-		
+
 		serverSpec = builder.build();
 	}
 
