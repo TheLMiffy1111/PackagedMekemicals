@@ -36,10 +36,8 @@ public class ChemicalRenderer {
 	}
 
 	private static TextureAtlasSprite getChemicalSprite(ChemicalStack<?> chemicalStack) {
-		Minecraft minecraft = Minecraft.getInstance();
-		Chemical<?> chemical = chemicalStack.getType();
-		ResourceLocation icon = chemical.getIcon();
-		return minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(icon);
+		ResourceLocation icon = chemicalStack.getType().getIcon();
+		return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(icon);
 	}
 
 	private static void setGLColorFromInt(int color) {
@@ -80,13 +78,10 @@ public class ChemicalRenderer {
 	}
 
 	private void drawChemical(PoseStack poseStack, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
-		if(capacity <= 0 || chemicalStack == null) {
+		if(capacity <= 0 || chemicalStack == null || chemicalStack.isEmpty()) {
 			return;
 		}
 		Chemical<?> chemical = chemicalStack.getType();
-		if(chemical == null) {
-			return;
-		}
 		TextureAtlasSprite chemicalSprite = getChemicalSprite(chemicalStack);
 		int chemicalColor = chemical.getTint();
 		int amount = (int)chemicalStack.getAmount();

@@ -1,0 +1,11 @@
+{
+    "itemGroup.packagedmekemicals": "封包通用化学品",
+
+    "block.packagedmekemicals.chemical_package_filler": "化学品封包填充机",
+    "block.packagedmekemicals.chemical_package_filler.redstone": "以红石激活启动",
+
+    "volume.packagedmekemicals.mekanism.gas": "气体",
+    "volume.packagedmekemicals.mekanism.infuse_type": "灌注类型",
+    "volume.packagedmekemicals.mekanism.pigment": "颜料",
+    "volume.packagedmekemicals.mekanism.slurry": "浆液"
+}
