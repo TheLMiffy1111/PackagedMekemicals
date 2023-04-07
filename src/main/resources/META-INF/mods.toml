@@ -13,14 +13,14 @@ description="A PackagedAuto addon that adds Mekanism chemical support."
 [[dependencies.packagedmekemicals]]
     modId="forge"
     mandatory=true
-    versionRange="[40.0.0,)"
+    versionRange="[40,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.packagedmekemicals]]
     modId="packagedauto"
     mandatory=true
-    versionRange="[3.1.1.9,)"
+    versionRange="[3.1.4,)"
     ordering="NONE"
     side="BOTH"
 
