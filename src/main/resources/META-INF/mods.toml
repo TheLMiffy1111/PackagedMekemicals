@@ -20,7 +20,7 @@ description="A PackagedAuto addon that adds Mekanism chemical support."
 [[dependencies.packagedmekemicals]]
     modId="packagedauto"
     mandatory=true
-    versionRange="[3.2.0.0,)"
+    versionRange="[3.2.3,)"
     ordering="NONE"
     side="BOTH"
 
