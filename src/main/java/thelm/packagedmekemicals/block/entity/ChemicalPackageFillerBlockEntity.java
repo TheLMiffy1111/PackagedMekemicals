@@ -267,7 +267,6 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 			if(powered) {
 				activated = true;
 			}
-			sync(false);
 			setChanged();
 		}
 	}
@@ -284,25 +283,35 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 	}
 
 	@Override
-	public void loadSync(CompoundTag nbt) {
-		super.loadSync(nbt);
+	public void load(CompoundTag nbt) {
+		super.load(nbt);
 		isWorking = nbt.getBoolean("Working");
-		currentChemical = BoxedChemicalStack.read(nbt.getCompound("Chemical")).getChemicalStack();
-		requiredAmount = nbt.getInt("AmountReq");
 		amount = nbt.getInt("Amount");
 		remainingProgress = nbt.getInt("Progress");
 		powered = nbt.getBoolean("Powered");
 	}
 
 	@Override
-	public CompoundTag saveSync(CompoundTag nbt) {
-		super.saveSync(nbt);
+	public void saveAdditional(CompoundTag nbt) {
+		super.saveAdditional(nbt);
 		nbt.putBoolean("Working", isWorking);
-		nbt.put("Chemical", BoxedChemicalStack.box(currentChemical).write(new CompoundTag()));
-		nbt.putInt("AmountReq", requiredAmount);
 		nbt.putInt("Amount", amount);
 		nbt.putInt("Progress", remainingProgress);
 		nbt.putBoolean("Powered", powered);
+	}
+
+	@Override
+	public void loadSync(CompoundTag nbt) {
+		super.loadSync(nbt);
+		currentChemical = BoxedChemicalStack.read(nbt.getCompound("Chemical")).getChemicalStack();
+		requiredAmount = nbt.getInt("AmountReq");
+	}
+
+	@Override
+	public CompoundTag saveSync(CompoundTag nbt) {
+		super.saveSync(nbt);
+		nbt.put("Chemical", BoxedChemicalStack.box(currentChemical).write(new CompoundTag()));
+		nbt.putInt("AmountReq", requiredAmount);
 		return nbt;
 	}
 
