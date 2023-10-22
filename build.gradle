@@ -12,9 +12,6 @@ repositories {
 		dirs "libs"
 	}
 	maven {
-		url = "https://maven.minecraftforge.net/"
-	}
-	maven {
 		url = "https://repo.spongepowered.org/maven/"
 	}
 	maven {
@@ -38,14 +35,14 @@ sourceSets {
 	main
 }
 
-def mcVersion = "1.19.2"
+def mcVersion = "1.20.1"
 def modName = "PackagedMekemicals"
 def modId = "packagedmekemicals"
-def specVersion = "3"
+def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "1.1.0.5"
+version = "1.2.0.0"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -59,7 +56,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 minecraft {
-	mappings channel: "parchment", version: "2022.11.27-1.19.2"
+	mappings channel: "parchment", version: "2023.07.30-1.20.1"
 	generateRunFolders = true
 	runs {
 		configureEach {
@@ -80,25 +77,26 @@ minecraft {
 }
 
 dependencies {
-	minecraft "net.minecraftforge:forge:1.19.2-43.3.0"
+	minecraft "net.neoforged:forge:1.20.1-47.1.79"
 
-	implementation fg.deobf("appeng:appliedenergistics2-forge:12.9.8")
-	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13")
-	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13:generators")
-	implementation fg.deobf("mezz.jei:jei-1.19.2-forge:11.6.0.1018")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.19.2:10.1.50")
-	implementation fg.deobf("vazkii.patchouli:Patchouli:1.19.2-77")
-	implementation fg.deobf("com.simibubi.create:create-1.19.2:0.5.1.e-44:all") {
+	implementation fg.deobf("appeng:appliedenergistics2-forge:15.0.11")
+	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.2.16")
+	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.2.16:generators")
+	implementation fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
+	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.17") {
+		transitive = false
+	}
+	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-81-FORGE")
+	implementation fg.deobf("com.simibubi.create:create-1.20.1:0.5.1.e-23:all") {
 		transitive = false
 	}
 
 	//JitPack
 
 	//CurseMaven
-	implementation fg.deobf("curse.maven:shutup-experimental-settings-407174:3759881")
-	implementation fg.deobf("curse.maven:packagedauto-308380:4768235")
-	implementation fg.deobf("curse.maven:applied-mekanistics-574300:4734608")
-	implementation fg.deobf("curse.maven:ato-405593:4046926")
+	implementation fg.deobf("curse.maven:packagedauto-308380:4768238")
+	implementation fg.deobf("curse.maven:applied-mekanistics-574300:4776865")
+	implementation fg.deobf("curse.maven:ato-405593:4751952")
 }
 
 def manifestAttributes = [

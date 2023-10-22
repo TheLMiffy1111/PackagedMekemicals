@@ -13,12 +13,6 @@ import thelm.packagedmekemicals.event.CommonEventHandler;
 public class PackagedMekemicals {
 
 	public static final String MOD_ID = "packagedmekemicals";
-	public static final CreativeModeTab CREATIVE_TAB = new CreativeModeTab("packagedmekemicals") {
-		@Override
-		public ItemStack makeIcon() {
-			return new ItemStack(ChemicalPackageFillerBlock.ITEM_INSTANCE);
-		}
-	};
 	public static PackagedMekemicals core;
 
 	public PackagedMekemicals() {

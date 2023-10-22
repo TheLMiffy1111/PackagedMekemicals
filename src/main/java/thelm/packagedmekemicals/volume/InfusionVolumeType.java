@@ -2,13 +2,12 @@ package thelm.packagedmekemicals.volume;
 
 import java.util.Optional;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.infuse.IInfusionHandler;
 import mekanism.api.chemical.infuse.InfusionStack;
 import mekanism.common.capabilities.Capabilities;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -136,9 +135,9 @@ public class InfusionVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int i, int j, IVolumeStackWrapper stack) {
+	public void render(GuiGraphics graphics, int i, int j, IVolumeStackWrapper stack) {
 		if(stack instanceof InfusionStackWrapper infusionStack) {
-			ChemicalRenderer.INSTANCE.render(poseStack, i, j, infusionStack.stack());
+			ChemicalRenderer.INSTANCE.render(graphics, i, j, infusionStack.stack());
 		}
 	}
 }

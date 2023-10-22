@@ -1,8 +1,11 @@
 package thelm.packagedmekemicals.event;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -11,6 +14,7 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
+import thelm.packagedauto.item.PackageItem;
 import thelm.packagedauto.util.ApiImpl;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
@@ -35,21 +39,31 @@ public class CommonEventHandler {
 		modEventBus.register(this);
 		PackagedMekemicalsConfig.registerConfig();
 
-		DeferredRegister<Block> blockRegister = DeferredRegister.create(Registry.BLOCK_REGISTRY, "packagedmekemicals");
+		DeferredRegister<Block> blockRegister = DeferredRegister.create(Registries.BLOCK, "packagedmekemicals");
 		blockRegister.register(modEventBus);
 		blockRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlock.INSTANCE);
 
-		DeferredRegister<Item> itemRegister = DeferredRegister.create(Registry.ITEM_REGISTRY, "packagedmekemicals");
+		DeferredRegister<Item> itemRegister = DeferredRegister.create(Registries.ITEM, "packagedmekemicals");
 		itemRegister.register(modEventBus);
 		itemRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlock.ITEM_INSTANCE);
 
-		DeferredRegister<BlockEntityType<?>> blockEntityRegister = DeferredRegister.create(Registry.BLOCK_ENTITY_TYPE_REGISTRY, "packagedmekemicals");
+		DeferredRegister<BlockEntityType<?>> blockEntityRegister = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, "packagedmekemicals");
 		blockEntityRegister.register(modEventBus);
 		blockEntityRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlockEntity.TYPE_INSTANCE);
 
-		DeferredRegister<MenuType<?>> menuRegister = DeferredRegister.create(Registry.MENU_REGISTRY, "packagedmekemicals");
+		DeferredRegister<MenuType<?>> menuRegister = DeferredRegister.create(Registries.MENU, "packagedmekemicals");
 		menuRegister.register(modEventBus);
 		menuRegister.register("chemical_package_filler", ()->ChemicalPackageFillerMenu.TYPE_INSTANCE);
+
+		DeferredRegister<CreativeModeTab> creativeTabRegister = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, "packagedmekemicals");
+		creativeTabRegister.register(modEventBus);
+		creativeTabRegister.register("tab", ()->CreativeModeTab.builder().
+				title(Component.translatable("itemGroup.packagedmekemicals")).
+				icon(()->new ItemStack(PackageItem.INSTANCE)).
+				displayItems((parameters, output)->{
+					output.accept(ChemicalPackageFillerBlock.ITEM_INSTANCE);
+				}).
+				build());
 	}
 
 	@SubscribeEvent

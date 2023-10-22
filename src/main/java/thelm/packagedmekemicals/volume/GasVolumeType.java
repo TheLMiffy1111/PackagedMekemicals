@@ -9,6 +9,7 @@ import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import mekanism.common.capabilities.Capabilities;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -136,9 +137,9 @@ public class GasVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int i, int j, IVolumeStackWrapper stack) {
+	public void render(GuiGraphics graphics, int i, int j, IVolumeStackWrapper stack) {
 		if(stack instanceof GasStackWrapper gasStack) {
-			ChemicalRenderer.INSTANCE.render(poseStack, i, j, gasStack.stack());
+			ChemicalRenderer.INSTANCE.render(graphics, i, j, gasStack.stack());
 		}
 	}
 }

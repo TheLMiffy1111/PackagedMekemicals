@@ -1,16 +1,17 @@
 package thelm.packagedmekemicals.client;
 
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
 
 import mekanism.api.chemical.Chemical;
 import mekanism.api.chemical.ChemicalStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
@@ -66,18 +67,18 @@ public class ChemicalRenderer {
 		tessellator.end();
 	}
 
-	public void render(PoseStack poseStack, int xPosition, int yPosition, ChemicalStack<?> chemicalStack) {
-		render(poseStack, xPosition, yPosition, chemicalStack, FluidType.BUCKET_VOLUME);
+	public void render(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack<?> chemicalStack) {
+		render(graphics, xPosition, yPosition, chemicalStack, FluidType.BUCKET_VOLUME);
 	}
 
-	public void render(PoseStack poseStack, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
+	public void render(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
 		RenderSystem.enableBlend();
-		drawChemical(poseStack, xPosition, yPosition, chemicalStack, capacity);
+		drawChemical(graphics, xPosition, yPosition, chemicalStack, capacity);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		RenderSystem.disableBlend();
 	}
 
-	private void drawChemical(PoseStack poseStack, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
+	private void drawChemical(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
 		if(capacity <= 0 || chemicalStack == null || chemicalStack.isEmpty()) {
 			return;
 		}
@@ -92,12 +93,12 @@ public class ChemicalRenderer {
 		if(scaledAmount > height) {
 			scaledAmount = height;
 		}
-		drawTiledSprite(poseStack, xPosition, yPosition, width, height, chemicalColor, scaledAmount, chemicalSprite);
+		drawTiledSprite(graphics, xPosition, yPosition, width, height, chemicalColor, scaledAmount, chemicalSprite);
 	}
 
-	private void drawTiledSprite(PoseStack poseStack, int xPosition, int yPosition, int tiledWidth, int tiledHeight, int color, int scaledAmount, TextureAtlasSprite sprite) {
+	private void drawTiledSprite(GuiGraphics graphics, int xPosition, int yPosition, int tiledWidth, int tiledHeight, int color, int scaledAmount, TextureAtlasSprite sprite) {
 		RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-		Matrix4f matrix = poseStack.last().pose();
+		Matrix4f matrix = graphics.pose().last().pose();
 		setGLColorFromInt(color);
 		int xTileCount = tiledWidth / TEX_WIDTH;
 		int xRemainder = tiledWidth - (xTileCount * TEX_WIDTH);

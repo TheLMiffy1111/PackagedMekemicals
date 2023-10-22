@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.chemical.ChemicalStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -66,40 +67,39 @@ public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFille
 	}
 
 	@Override
-	protected void renderBgAdditional(PoseStack poseStack, float partialTicks, int mouseX, int mouseY) {
-		blit(poseStack, leftPos+102, topPos+35, 176, 0, menu.blockEntity.getScaledProgress(22), 16);
+	protected void renderBgAdditional(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		graphics.blit(BACKGROUND, leftPos+102, topPos+35, 176, 0, menu.blockEntity.getScaledProgress(22), 16);
 		int scaledEnergy = menu.blockEntity.getScaledEnergy(40);
-		blit(poseStack, leftPos+10, topPos+10+40-scaledEnergy, 176, 16+40-scaledEnergy, 12, scaledEnergy);
+		graphics.blit(BACKGROUND, leftPos+10, topPos+10+40-scaledEnergy, 176, 16+40-scaledEnergy, 12, scaledEnergy);
 		if(menu.blockEntity.isWorking) {
-			blit(poseStack, leftPos+102, topPos+30, 176, 61, 6, 5);
+			graphics.blit(BACKGROUND, leftPos+102, topPos+30, 176, 61, 6, 5);
 		}
 		else {
-			blit(poseStack, leftPos+102, topPos+30, 176, 56, 6, 5);
+			graphics.blit(BACKGROUND, leftPos+102, topPos+30, 176, 56, 6, 5);
 		}
-		amountField.renderButton(poseStack, mouseX, mouseY, partialTicks);
 
 		ChemicalStack<?> stack = menu.blockEntity.currentChemical.copy();
 		if(!stack.isEmpty()) {
 			stack.setAmount(menu.blockEntity.amount);
-			CHEMICAL_RENDERER.render(poseStack, leftPos+80, topPos+17, stack, menu.blockEntity.requiredAmount);
+			CHEMICAL_RENDERER.render(graphics, leftPos+80, topPos+17, stack, menu.blockEntity.requiredAmount);
 		}
 	}
 
 	@Override
-	protected void renderLabels(PoseStack poseStack, int mouseX, int mouseY) {
+	protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
 		String s = menu.blockEntity.getDisplayName().getString();
-		font.draw(poseStack, s, imageWidth/2 - font.width(s)/2, 6, 0x404040);
-		font.draw(poseStack, menu.inventory.getDisplayName().getString(), menu.getPlayerInvX(), menu.getPlayerInvY()-11, 0x404040);
+		graphics.drawString(font, s, imageWidth/2 - font.width(s)/2, 6, 0x404040, false);
+		graphics.drawString(font, menu.inventory.getDisplayName().getString(), menu.getPlayerInvX(), menu.getPlayerInvY()-11, 0x404040, false);
 		if(mouseX-leftPos >= 10 && mouseY-topPos >= 10 && mouseX-leftPos <= 21 && mouseY-topPos <= 49) {
-			renderTooltip(poseStack, Component.literal(menu.blockEntity.getEnergyStorage().getEnergyStored()+" / "+menu.blockEntity.getEnergyStorage().getMaxEnergyStored()+" FE"), mouseX-leftPos, mouseY-topPos);
+			graphics.renderTooltip(font, Component.literal(menu.blockEntity.getEnergyStorage().getEnergyStored()+" / "+menu.blockEntity.getEnergyStorage().getMaxEnergyStored()+" FE"), mouseX-leftPos, mouseY-topPos);
 		}
 		if(!menu.blockEntity.isWorking && mouseX-leftPos >= 102 && mouseY-topPos >= 30 && mouseX-leftPos <= 107 && mouseY-topPos <= 34) {
-			renderTooltip(poseStack, Component.translatable("block.packagedmekemicals.chemical_package_filler.redstone"), mouseX-leftPos, mouseY-topPos);
+			graphics.renderTooltip(font, Component.translatable("block.packagedmekemicals.chemical_package_filler.redstone"), mouseX-leftPos, mouseY-topPos);
 		}
 		if(menu.blockEntity.isWorking && !menu.blockEntity.currentChemical.isEmpty() && mouseX-leftPos >= 80 && mouseY-topPos >= 17 && mouseX-leftPos <= 95 && mouseY-topPos <= 68) {
-			renderTooltip(poseStack, Component.literal("").append(menu.blockEntity.currentChemical.getTextComponent()).append(" "+menu.blockEntity.amount+" / "+menu.blockEntity.requiredAmount+" mB"), mouseX-leftPos, mouseY-topPos);
+			graphics.renderTooltip(font, Component.literal("").append(menu.blockEntity.currentChemical.getTextComponent()).append(" "+menu.blockEntity.amount+" / "+menu.blockEntity.requiredAmount+" mB"), mouseX-leftPos, mouseY-topPos);
 		}
-		super.renderLabels(poseStack, mouseX, mouseY);
+		super.renderLabels(graphics, mouseX, mouseY);
 	}
 
 	@Override
