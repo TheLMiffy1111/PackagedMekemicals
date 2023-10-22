@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.chemical.gas.IGasHandler;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -83,12 +84,12 @@ public class GasVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Object makeItemCapability(ItemStack volumePackage) {
+	public IGasHandler makeItemCapability(ItemStack volumePackage) {
 		return new StackGasHandlerItem(volumePackage);
 	}
 
 	@Override
-	public Capability getItemCapability() {
+	public Capability<IGasHandler> getItemCapability() {
 		return Capabilities.GAS_HANDLER;
 	}
 

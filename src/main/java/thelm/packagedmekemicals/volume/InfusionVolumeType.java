@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
+import mekanism.api.chemical.infuse.IInfusionHandler;
 import mekanism.api.chemical.infuse.InfusionStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
@@ -83,12 +84,12 @@ public class InfusionVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Object makeItemCapability(ItemStack volumePackage) {
+	public IInfusionHandler makeItemCapability(ItemStack volumePackage) {
 		return new StackInfusionHandlerItem(volumePackage);
 	}
 
 	@Override
-	public Capability getItemCapability() {
+	public Capability<IInfusionHandler> getItemCapability() {
 		return Capabilities.INFUSION_HANDLER;
 	}
 
