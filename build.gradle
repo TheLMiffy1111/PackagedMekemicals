@@ -41,7 +41,7 @@ sourceSets {
 def mcVersion = "1.19.2"
 def modName = "PackagedMekemicals"
 def modId = "packagedmekemicals"
-def specVersion = "3"
+def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
