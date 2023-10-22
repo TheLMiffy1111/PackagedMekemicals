@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
+import mekanism.api.chemical.slurry.ISlurryHandler;
 import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
@@ -83,12 +84,12 @@ public class SlurryVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Object makeItemCapability(ItemStack volumePackage) {
+	public ISlurryHandler makeItemCapability(ItemStack volumePackage) {
 		return new StackSlurryHandlerItem(volumePackage);
 	}
 
 	@Override
-	public Capability getItemCapability() {
+	public Capability<ISlurryHandler> getItemCapability() {
 		return Capabilities.SLURRY_HANDLER_CAPABILITY;
 	}
 

@@ -252,7 +252,6 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 	}
 
 	protected void chargeEnergy() {
-		int prevStored = energyStorage.getEnergyStored();
 		ItemStack energyStack = itemHandler.getStackInSlot(2);
 		if(energyStack.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
 			int energyRequest = Math.min(energyStorage.getMaxReceive(), energyStorage.getMaxEnergyStored() - energyStorage.getEnergyStored());

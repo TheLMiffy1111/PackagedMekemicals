@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
+import mekanism.api.chemical.pigment.IPigmentHandler;
 import mekanism.api.chemical.pigment.PigmentStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
@@ -83,12 +84,12 @@ public class PigmentVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Object makeItemCapability(ItemStack volumePackage) {
+	public IPigmentHandler makeItemCapability(ItemStack volumePackage) {
 		return new StackPigmentHandlerItem(volumePackage);
 	}
 
 	@Override
-	public Capability getItemCapability() {
+	public Capability<IPigmentHandler> getItemCapability() {
 		return Capabilities.PIGMENT_HANDLER_CAPABILITY;
 	}
 
