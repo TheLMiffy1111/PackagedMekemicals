@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import thelm.packagedauto.api.IVolumePackageItem;
 import thelm.packagedauto.block.entity.BaseBlockEntity;
 import thelm.packagedauto.block.entity.UnpackagerBlockEntity;
@@ -234,19 +235,10 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 					&& !blockEntity.getCapability(Capabilities.SLURRY_HANDLER_CAPABILITY, direction.getOpposite()).isPresent()) {
 				IItemHandler itemHandler = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, direction.getOpposite()).resolve().get();
 				ItemStack stack = this.itemHandler.getStackInSlot(1);
-				if(stack.isEmpty()) {
-					return;
+				if(!stack.isEmpty()) {
+					ItemStack stackRem = ItemHandlerHelper.insertItem(itemHandler, stack, false);
+					this.itemHandler.setStackInSlot(1, stackRem);
 				}
-				for(int slot = 0; slot < itemHandler.getSlots(); ++slot) {
-					ItemStack stackRem = itemHandler.insertItem(slot, stack, false);
-					if(stackRem.getCount() < stack.getCount()) {
-						stack = stackRem;
-					}
-					if(stack.isEmpty()) {
-						break;
-					}
-				}
-				this.itemHandler.setStackInSlot(1, stack);
 			}
 		}
 	}
