@@ -42,7 +42,7 @@ def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "1.2.0.0"
+version = "1.2.0.1"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -94,7 +94,7 @@ dependencies {
 	//JitPack
 
 	//CurseMaven
-	implementation fg.deobf("curse.maven:packagedauto-308380:4819142")
+	implementation fg.deobf("curse.maven:packagedauto-308380:4819412")
 	implementation fg.deobf("curse.maven:applied-mekanistics-574300:4776865")
 	implementation fg.deobf("curse.maven:ato-405593:4751952")
 }

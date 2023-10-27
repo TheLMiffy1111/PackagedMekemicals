@@ -2,8 +2,6 @@ package thelm.packagedmekemicals.volume;
 
 import java.util.Optional;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.gas.GasStack;

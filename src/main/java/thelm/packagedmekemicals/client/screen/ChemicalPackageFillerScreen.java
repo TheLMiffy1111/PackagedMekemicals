@@ -1,7 +1,6 @@
 package thelm.packagedmekemicals.client.screen;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.chemical.ChemicalStack;
 import net.minecraft.client.gui.GuiGraphics;

@@ -1,11 +1,8 @@
 package thelm.packagedmekemicals;
 
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.client.event.ClientEventHandler;
 import thelm.packagedmekemicals.event.CommonEventHandler;
 
