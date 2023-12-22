@@ -80,7 +80,7 @@ minecraft {
 }
 
 dependencies {
-	minecraft "net.minecraftforge:forge:1.19.2-43.3.0"
+	minecraft "net.minecraftforge:forge:1.19.2-43.3.5"
 
 	implementation fg.deobf("appeng:appliedenergistics2-forge:12.9.8")
 	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13")
