@@ -86,9 +86,9 @@ dependencies {
 	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13")
 	implementation fg.deobf("mekanism:Mekanism:1.19.2-10.3.9.13:generators")
 	implementation fg.deobf("mezz.jei:jei-1.19.2-forge:11.6.0.1018")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.19.2:10.1.50")
+	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.19.2:10.1.52")
 	implementation fg.deobf("vazkii.patchouli:Patchouli:1.19.2-77")
-	implementation fg.deobf("com.simibubi.create:create-1.19.2:0.5.1.e-44:all") {
+	implementation fg.deobf("com.simibubi.create:create-1.19.2:0.5.1.f-46:all") {
 		transitive = false
 	}
 
