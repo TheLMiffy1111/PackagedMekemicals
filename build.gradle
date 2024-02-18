@@ -1,9 +1,10 @@
 plugins {
-	id "net.neoforged.gradle" version "[6.0.13,7)"
-	id "org.parchmentmc.librarian.forgegradle" version "[1,)"
+	id "com.crystaelix.loom" version "jitpack-afd363f1"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
+	id "net.kyori.blossom" version "[1,2)"
+	id "me.modmuss50.mod-publish-plugin" version "0.5.0"
 }
 
 repositories {
@@ -11,23 +12,47 @@ repositories {
 	flatDir {
 		dirs "libs"
 	}
-	maven {
-		url = "https://repo.spongepowered.org/maven/"
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.parchmentmc.net/"
+			}
+		}
+		filter {
+			includeGroup "org.parchmentmc.data"
+		}
 	}
-	maven {
-		url = "https://maven.tterrag.com/"
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.blamejared.com/"
+			}
+		}
+		filter {
+			includeGroup "mezz.jei"
+			includeGroup "vazkii.patchouli"
+		}
 	}
-	maven {
-		url = "https://maven.blamejared.com/"
-	}
-	maven {
-		url = "https://cursemaven.com/"
-		content {
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://cursemaven.com/"
+			}
+		}
+		filter {
 			includeGroup "curse.maven"
 		}
 	}
-	maven {
-		url = "https://modmaven.dev/"
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://modmaven.dev/"
+			}
+		}
+		filter {
+			includeGroup "appeng"
+			includeGroup "mekanism"
+		}
 	}
 }
 
@@ -42,7 +67,7 @@ def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "1.2.0.1"
+version = "1.2.0.2"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -55,21 +80,15 @@ tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
 }
 
-minecraft {
-	mappings channel: "parchment", version: "2023.07.30-1.20.1"
-	generateRunFolders = true
+loom {
+	silentMojangMappingsLicense()
+	forge {
+		useForgeLoggerConfig = true
+	}
+	interfaceInjection.enableDependencyInterfaceInjection = false
 	runs {
 		configureEach {
-			workingDirectory project.file("run")
-			property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
 			property "forge.logging.console.level", "debug"
-			property "mixin.env.remapRefMap", "true"
-			property "mixin.env.refMapRemappingFile", "${buildDir}/createSrgToMcp/output.srg"
-			mods {
-				"${modId}" {
-					source sourceSets.main
-				}
-			}
 		}
 		client
 		server
@@ -77,29 +96,47 @@ minecraft {
 }
 
 dependencies {
-	minecraft "net.neoforged:forge:1.20.1-47.1.84"
+	// Log4j
+	implementation "org.apache.logging.log4j:log4j-core:2.22.1"
 
-	implementation fg.deobf("appeng:appliedenergistics2-forge:15.0.15")
-	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.5.19")
-	implementation fg.deobf("mekanism:Mekanism:1.20.1-10.4.5.19:generators")
-	implementation fg.deobf("mezz.jei:jei-1.20.1-forge:15.2.0.27")
-	implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-forge-1.20.1:14.0.17") {
-		transitive = false
+	// Minecraft
+	minecraft "com.mojang:minecraft:1.20.1"
+	mappings loom.layered {
+		officialMojangMappings()
+		parchment "org.parchmentmc.data:parchment-1.20.1:2023.09.03@zip"
 	}
-	implementation fg.deobf("vazkii.patchouli:Patchouli:1.20.1-84-FORGE")
-	implementation fg.deobf("com.simibubi.create:create-1.20.1:0.5.1.e-23:all") {
-		transitive = false
-	}
+	forge "net.minecraftforge:forge:1.20.1-47.2.20"
 
-	//CurseMaven
-	implementation fg.deobf("curse.maven:packagedauto-308380:4819412")
-	implementation fg.deobf("curse.maven:applied-mekanistics-574300:4842281")
-	implementation fg.deobf("curse.maven:ato-405593:4844097")
+	// Dependencies
+	modImplementation "curse.maven:packagedauto-308380:5112600"
+	modImplementation "mekanism:Mekanism:1.20.1-10.4.5.19"
+	modImplementation("mezz.jei:jei-1.20.1-forge:15.3.0.1") {transitive = false}
+	modImplementation "appeng:appliedenergistics2-forge:15.0.20"
+	modImplementation "curse.maven:applied-mekanistics-574300:4842281"
+	modImplementation "vazkii.patchouli:Patchouli:1.20.1-84-FORGE"
 
 	//Performance
-	implementation fg.deobf("curse.maven:yeetusexperimentus-635427:4680832")
-	implementation fg.deobf("curse.maven:modernfix-790626:4980929")
-	implementation fg.deobf("curse.maven:ferritecore-429235:4810975")
+	modImplementation "curse.maven:yeetusexperimentus-635427:4680832"
+	implementation "io.github.llamalad7:mixinextras-forge:0.3.5"
+	modImplementation "curse.maven:modernfix-790626:5077298"
+	modImplementation "curse.maven:ferritecore-429235:4810975"
+}
+
+def replacements = [
+	"0@VERSION@": version
+]
+
+blossom {
+	replaceToken(replacements)
+}
+
+processResources {
+	inputs.properties(replacements)
+	filesMatching(["mcmod.info", "META-INF/mods.toml"]) {
+		filter {
+			it.replace(replacements)
+		}
+	}
 }
 
 def manifestAttributes = [
@@ -113,9 +150,33 @@ def manifestAttributes = [
 
 jar {
 	manifest.attributes(manifestAttributes)
-	finalizedBy("reobfJar")
 }
 
 sourcesJar {
 	manifest.attributes(manifestAttributes)
+}
+
+publishMods {
+	file = remapJar.archiveFile
+	version = displayName = "${mcVersion}-${project.version}"
+	changelog = file("changelog.md").text
+	type = BETA
+	modLoaders.addAll("forge", "neoforge")
+	additionalFiles.from(remapSourcesJar.archiveFile)
+
+	curseforge {
+		accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+		projectId = "609886"
+		minecraftVersions.add(mcVersion)
+		requires "packagedauto", "mekanism"
+		optional "applied-energistics-2", "applied-mekanistics"
+	}
+
+	modrinth {
+		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		projectId = "qO33ACjS"
+		minecraftVersions.add(mcVersion)
+		requires "packagedauto", "extended-crafting"
+		optional "ae2", "applied-mekanistics"
+	}
 }
