@@ -1,32 +1,28 @@
-modLoader="javafml"
-loaderVersion="[40,)"
-license="MIT"
-issueTrackerURL="https://github.com/TheLMiffy1111/PackagedMekemicals/issues"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/packagedmekemicals"
-authors="TheLMiffy1111"
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/TheLMiffy1111/PackagedMekemicals/issues"
+
 [[mods]]
-modId="packagedmekemicals"
-version="${file.jarVersion}"
-displayName="PackagedMekemicals"
-description="A PackagedAuto addon that adds Mekanism chemical support."
+	modId = "packagedmekemicals"
+	version = "0@VERSION@"
+	displayName = "PackagedMekemicals"
+	description = "A PackagedAuto addon that adds Mekanism chemical support."
+	logoFile = "packagedmekemicals.logo.png"
+	authors = "TheLMiffy1111"
+	displayURL = "https://www.curseforge.com/minecraft/mc-mods/packagedmekemicals"
 
 [[dependencies.packagedmekemicals]]
-    modId="forge"
-    mandatory=true
-    versionRange="[40,)"
-    ordering="NONE"
-    side="BOTH"
+	modId = "forge"
+	versionRange = "[40,)"
+	mandatory = true
 
 [[dependencies.packagedmekemicals]]
-    modId="packagedauto"
-    mandatory=true
-    versionRange="[3.1.4,)"
-    ordering="NONE"
-    side="BOTH"
+	modId = "packagedauto"
+	versionRange = "[3.1.4,)"
+	mandatory = true
 
 [[dependencies.packagedmekemicals]]
-    modId="mekanism"
-    mandatory=true
-    versionRange="[10.2.3,)"
-    ordering="NONE"
-    side="BOTH"
+	modId = "mekanism"
+	versionRange = "[10.2.3,)"
+	mandatory = true
