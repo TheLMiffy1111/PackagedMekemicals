@@ -172,7 +172,7 @@ publishMods {
 
 	modrinth {
 		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-		projectId = "qO33ACjS"
+		projectId = "zqykyLyX"
 		minecraftVersions.add(mcVersion)
 		requires "packagedauto", "extended-crafting"
 		optional "ae2", "applied-mekanistics"
