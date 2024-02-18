@@ -19,12 +19,10 @@ public class PackagedMekemicals {
 			return new ItemStack(ChemicalPackageFillerBlock.ITEM_INSTANCE);
 		}
 	};
-	public static PackagedMekemicals core;
 
 	public PackagedMekemicals() {
-		core = this;
 		CommonEventHandler.getInstance().onConstruct();
-		DistExecutor.runWhenOn(Dist.CLIENT, ()->()->{
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()->{
 			ClientEventHandler.getInstance().onConstruct();
 		});
 	}
