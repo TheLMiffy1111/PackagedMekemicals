@@ -10,12 +10,10 @@ import thelm.packagedmekemicals.event.CommonEventHandler;
 public class PackagedMekemicals {
 
 	public static final String MOD_ID = "packagedmekemicals";
-	public static PackagedMekemicals core;
 
 	public PackagedMekemicals() {
-		core = this;
 		CommonEventHandler.getInstance().onConstruct();
-		DistExecutor.runWhenOn(Dist.CLIENT, ()->()->{
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()->{
 			ClientEventHandler.getInstance().onConstruct();
 		});
 	}
