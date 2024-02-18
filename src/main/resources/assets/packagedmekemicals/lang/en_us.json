@@ -1,11 +1,11 @@
 {
-    "itemGroup.packagedmekemicals": "PackagedMekemicals",
+	"itemGroup.packagedmekemicals": "PackagedMekemicals",
 
-    "block.packagedmekemicals.chemical_package_filler": "Chemical Package Filler",
-    "block.packagedmekemicals.chemical_package_filler.redstone": "Activate with redstone to start",
+	"block.packagedmekemicals.chemical_package_filler": "Chemical Package Filler",
+	"block.packagedmekemicals.chemical_package_filler.redstone": "Activate with redstone to start",
 
-    "volume.packagedmekemicals.mekanism.gas": "Gas",
-    "volume.packagedmekemicals.mekanism.infuse_type": "Infuse Type",
-    "volume.packagedmekemicals.mekanism.pigment": "Pigment",
-    "volume.packagedmekemicals.mekanism.slurry": "Slurry"
+	"volume.packagedmekemicals.mekanism.gas": "Gas",
+	"volume.packagedmekemicals.mekanism.infuse_type": "Infuse Type",
+	"volume.packagedmekemicals.mekanism.pigment": "Pigment",
+	"volume.packagedmekemicals.mekanism.slurry": "Slurry"
 }
