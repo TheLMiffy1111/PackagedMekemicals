@@ -1,11 +1,11 @@
 {
-    "itemGroup.packagedmekemicals": "封包通用化學品",
+	"itemGroup.packagedmekemicals": "封包通用化學品",
 
-    "block.packagedmekemicals.chemical_package_filler": "化學品封包填充機",
-    "block.packagedmekemicals.chemical_package_filler.redstone": "以紅石訊號啟動",
+	"block.packagedmekemicals.chemical_package_filler": "化學品封包填充機",
+	"block.packagedmekemicals.chemical_package_filler.redstone": "以紅石訊號啟動",
 
-    "volume.packagedmekemicals.mekanism.gas": "氣體",
-    "volume.packagedmekemicals.mekanism.infuse_type": "灌注類型",
-    "volume.packagedmekemicals.mekanism.pigment": "顏料",
-    "volume.packagedmekemicals.mekanism.slurry": "漿液"
+	"volume.packagedmekemicals.mekanism.gas": "氣體",
+	"volume.packagedmekemicals.mekanism.infuse_type": "灌注類型",
+	"volume.packagedmekemicals.mekanism.pigment": "顏料",
+	"volume.packagedmekemicals.mekanism.slurry": "漿液"
 }
