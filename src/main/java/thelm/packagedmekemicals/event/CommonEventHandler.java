@@ -8,19 +8,23 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
+import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import thelm.packagedauto.block.entity.BaseBlockEntity;
 import thelm.packagedauto.item.PackageItem;
 import thelm.packagedauto.util.ApiImpl;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
 import thelm.packagedmekemicals.config.PackagedMekemicalsConfig;
 import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
-import thelm.packagedmekemicals.network.PacketHandler;
+import thelm.packagedmekemicals.packet.SetChemicalAmountPacket;
 import thelm.packagedmekemicals.volume.GasVolumeType;
 import thelm.packagedmekemicals.volume.InfusionVolumeType;
 import thelm.packagedmekemicals.volume.PigmentVolumeType;
@@ -34,8 +38,7 @@ public class CommonEventHandler {
 		return INSTANCE;
 	}
 
-	public void onConstruct() {
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+	public void onConstruct(IEventBus modEventBus) {
 		modEventBus.register(this);
 		PackagedMekemicalsConfig.registerConfig();
 
@@ -72,8 +75,19 @@ public class CommonEventHandler {
 		ApiImpl.INSTANCE.registerVolumeType(InfusionVolumeType.INSTANCE);
 		ApiImpl.INSTANCE.registerVolumeType(PigmentVolumeType.INSTANCE);
 		ApiImpl.INSTANCE.registerVolumeType(SlurryVolumeType.INSTANCE);
+	}
 
-		PacketHandler.registerPackets();
+	@SubscribeEvent
+	public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ChemicalPackageFillerBlockEntity.TYPE_INSTANCE, BaseBlockEntity::getItemHandler);
+
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ChemicalPackageFillerBlockEntity.TYPE_INSTANCE, BaseBlockEntity::getEnergyStorage);
+	}
+
+	@SubscribeEvent
+	public void onRegisterPayloadHandler(RegisterPayloadHandlerEvent event) {
+		IPayloadRegistrar registrar = event.registrar("packagedmekemicals");
+		registrar.play(SetChemicalAmountPacket.ID, SetChemicalAmountPacket::read, builder->builder.client(SetChemicalAmountPacket::handle));
 	}
 
 	@SubscribeEvent

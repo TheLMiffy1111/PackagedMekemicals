@@ -14,8 +14,7 @@ import mekanism.api.chemical.slurry.ISlurryHandler;
 import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 public class ChemicalHelper {
 
@@ -23,8 +22,8 @@ public class ChemicalHelper {
 
 	private ChemicalHelper() {}
 
-	public LazyOptional<IGasHandler> getGasHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.GAS_HANDLER);
+	public Optional<IGasHandler> getGasHandler(ItemStack itemStack) {
+		return Optional.ofNullable(itemStack.getCapability(Capabilities.GAS.item()));
 	}
 
 	public Optional<GasStack> getGasContained(ItemStack container) {
@@ -37,8 +36,8 @@ public class ChemicalHelper {
 		return Optional.empty();
 	}
 
-	public LazyOptional<IInfusionHandler> getInfusionHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.INFUSION_HANDLER);
+	public Optional<IInfusionHandler> getInfusionHandler(ItemStack itemStack) {
+		return Optional.ofNullable(itemStack.getCapability(Capabilities.INFUSION.item()));
 	}
 
 	public Optional<InfusionStack> getInfusionContained(ItemStack container) {
@@ -51,8 +50,8 @@ public class ChemicalHelper {
 		return Optional.empty();
 	}
 
-	public LazyOptional<IPigmentHandler> getPigmentHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.PIGMENT_HANDLER);
+	public Optional<IPigmentHandler> getPigmentHandler(ItemStack itemStack) {
+		return Optional.ofNullable(itemStack.getCapability(Capabilities.PIGMENT.item()));
 	}
 
 	public Optional<PigmentStack> getPigmentContained(ItemStack container) {
@@ -65,8 +64,8 @@ public class ChemicalHelper {
 		return Optional.empty();
 	}
 
-	public LazyOptional<ISlurryHandler> getSlurryHandler(ItemStack itemStack) {
-		return itemStack.getCapability(Capabilities.SLURRY_HANDLER);
+	public Optional<ISlurryHandler> getSlurryHandler(ItemStack itemStack) {
+		return Optional.ofNullable(itemStack.getCapability(Capabilities.SLURRY.item()));
 	}
 
 	public Optional<SlurryStack> getSlurryContained(ItemStack container) {

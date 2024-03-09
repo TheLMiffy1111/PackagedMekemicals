@@ -8,15 +8,16 @@ import mekanism.api.chemical.pigment.IPigmentHandler;
 import mekanism.api.chemical.pigment.PigmentStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.ModList;
+import net.minecraft.world.level.Level;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.capabilities.ItemCapability;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.capability.StackPigmentHandlerItem;
@@ -88,18 +89,19 @@ public class PigmentVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Capability<IPigmentHandler> getItemCapability() {
-		return Capabilities.PIGMENT_HANDLER;
+	public ItemCapability<IPigmentHandler, Void> getItemCapability() {
+		return Capabilities.PIGMENT.item();
 	}
 
 	@Override
-	public boolean hasBlockCapability(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.PIGMENT_HANDLER, direction).isPresent();
+	public boolean hasBlockCapability(Level level, BlockPos pos, Direction direction) {
+		return level.getCapability(Capabilities.PIGMENT.block(), pos, direction) != null;
 	}
 
 	@Override
-	public boolean isEmpty(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.PIGMENT_HANDLER, direction).map(handler->{
+	public boolean isEmpty(Level level, BlockPos pos, Direction direction) {
+		IPigmentHandler handler = level.getCapability(Capabilities.PIGMENT.block(), pos, direction);
+		if(handler != null) {
 			if(handler.getTanks() == 0) {
 				return false;
 			}
@@ -109,27 +111,31 @@ public class PigmentVolumeType implements IVolumeType {
 				}
 			}
 			return true;
-		}).orElse(false);
+		}
+		return false;
 	}
 
 	@Override
-	public int fill(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
+	public int fill(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof PigmentStackWrapper pigmentStack) {
-			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.PIGMENT_HANDLER, direction).
-					map(handler->handler.insertChemical(pigmentStack.stack(), action)).
-					map(stack->pigmentStack.getAmount()-stack.getAmount()).orElse(0L).intValue();
+			IPigmentHandler handler = level.getCapability(Capabilities.PIGMENT.block(), pos, direction);
+			if(handler != null) {
+				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
+				PigmentStack stack = handler.insertChemical(pigmentStack.stack(), action);
+				return (int)(pigmentStack.getAmount()-stack.getAmount());
+			}
 		}
 		return 0;
 	}
 
 	@Override
-	public IVolumeStackWrapper drain(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
+	public IVolumeStackWrapper drain(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof PigmentStackWrapper pigmentStack) {
-			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.PIGMENT_HANDLER, direction).
-					map(handler->handler.extractChemical(pigmentStack.stack(), action)).
-					map(PigmentStackWrapper::new).orElse(PigmentStackWrapper.EMPTY);
+			IPigmentHandler handler = level.getCapability(Capabilities.PIGMENT.block(), pos, direction);
+			if(handler != null) {
+				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
+				return new PigmentStackWrapper(handler.extractChemical(pigmentStack.stack(), action));
+			}
 		}
 		return PigmentStackWrapper.EMPTY;
 	}

@@ -1,8 +1,9 @@
 package thelm.packagedmekemicals;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
+import thelm.packagedauto.util.MiscHelper;
 import thelm.packagedmekemicals.client.event.ClientEventHandler;
 import thelm.packagedmekemicals.event.CommonEventHandler;
 
@@ -11,10 +12,10 @@ public class PackagedMekemicals {
 
 	public static final String MOD_ID = "packagedmekemicals";
 
-	public PackagedMekemicals() {
-		CommonEventHandler.getInstance().onConstruct();
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, ()->()->{
-			ClientEventHandler.getInstance().onConstruct();
-		});
+	public PackagedMekemicals(IEventBus modEventBus) {
+		CommonEventHandler.getInstance().onConstruct(modEventBus);
+		MiscHelper.INSTANCE.conditionalRunnable(FMLEnvironment.dist::isClient, ()->()->{
+			ClientEventHandler.getInstance().onConstruct(modEventBus);
+		}, ()->()->{}).run();
 	}
 }

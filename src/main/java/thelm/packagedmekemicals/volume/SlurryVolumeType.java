@@ -8,15 +8,16 @@ import mekanism.api.chemical.slurry.ISlurryHandler;
 import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.ModList;
+import net.minecraft.world.level.Level;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.capabilities.ItemCapability;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.capability.StackSlurryHandlerItem;
@@ -88,18 +89,19 @@ public class SlurryVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Capability<ISlurryHandler> getItemCapability() {
-		return Capabilities.SLURRY_HANDLER;
+	public ItemCapability<ISlurryHandler, Void> getItemCapability() {
+		return Capabilities.SLURRY.item();
 	}
 
 	@Override
-	public boolean hasBlockCapability(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.SLURRY_HANDLER, direction).isPresent();
+	public boolean hasBlockCapability(Level level, BlockPos pos, Direction direction) {
+		return level.getCapability(Capabilities.SLURRY.block(), pos, direction) != null;
 	}
 
 	@Override
-	public boolean isEmpty(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.SLURRY_HANDLER, direction).map(handler->{
+	public boolean isEmpty(Level level, BlockPos pos, Direction direction) {
+		ISlurryHandler handler = level.getCapability(Capabilities.SLURRY.block(), pos, direction);
+		if(handler != null) {
 			if(handler.getTanks() == 0) {
 				return false;
 			}
@@ -109,27 +111,31 @@ public class SlurryVolumeType implements IVolumeType {
 				}
 			}
 			return true;
-		}).orElse(false);
+		}
+		return false;
 	}
 
 	@Override
-	public int fill(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
+	public int fill(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof SlurryStackWrapper slurryStack) {
-			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.SLURRY_HANDLER, direction).
-					map(handler->handler.insertChemical(slurryStack.stack(), action)).
-					map(stack->slurryStack.getAmount()-stack.getAmount()).orElse(0L).intValue();
+			ISlurryHandler handler = level.getCapability(Capabilities.SLURRY.block(), pos, direction);
+			if(handler != null) {
+				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
+				SlurryStack stack = handler.insertChemical(slurryStack.stack(), action);
+				return (int)(slurryStack.getAmount()-stack.getAmount());
+			}
 		}
 		return 0;
 	}
 
 	@Override
-	public IVolumeStackWrapper drain(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
+	public IVolumeStackWrapper drain(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof SlurryStackWrapper slurryStack) {
-			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.SLURRY_HANDLER, direction).
-					map(handler->handler.extractChemical(slurryStack.stack(), action)).
-					map(SlurryStackWrapper::new).orElse(SlurryStackWrapper.EMPTY);
+			ISlurryHandler handler = level.getCapability(Capabilities.SLURRY.block(), pos, direction);
+			if(handler != null) {
+				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
+				return new SlurryStackWrapper(handler.extractChemical(slurryStack.stack(), action));
+			}
 		}
 		return SlurryStackWrapper.EMPTY;
 	}

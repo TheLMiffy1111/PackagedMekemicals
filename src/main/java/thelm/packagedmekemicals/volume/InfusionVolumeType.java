@@ -8,15 +8,16 @@ import mekanism.api.chemical.infuse.IInfusionHandler;
 import mekanism.api.chemical.infuse.InfusionStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.ModList;
+import net.minecraft.world.level.Level;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.capabilities.ItemCapability;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.capability.StackInfusionHandlerItem;
@@ -88,18 +89,19 @@ public class InfusionVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Capability<IInfusionHandler> getItemCapability() {
-		return Capabilities.INFUSION_HANDLER;
+	public ItemCapability<IInfusionHandler, Void> getItemCapability() {
+		return Capabilities.INFUSION.item();
 	}
 
 	@Override
-	public boolean hasBlockCapability(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.INFUSION_HANDLER, direction).isPresent();
+	public boolean hasBlockCapability(Level level, BlockPos pos, Direction direction) {
+		return level.getCapability(Capabilities.INFUSION.block(), pos, direction) != null;
 	}
 
 	@Override
-	public boolean isEmpty(ICapabilityProvider capProvider, Direction direction) {
-		return capProvider.getCapability(Capabilities.INFUSION_HANDLER, direction).map(handler->{
+	public boolean isEmpty(Level level, BlockPos pos, Direction direction) {
+		IInfusionHandler handler = level.getCapability(Capabilities.INFUSION.block(), pos, direction);
+		if(handler != null) {
 			if(handler.getTanks() == 0) {
 				return false;
 			}
@@ -109,27 +111,31 @@ public class InfusionVolumeType implements IVolumeType {
 				}
 			}
 			return true;
-		}).orElse(false);
+		}
+		return false;
 	}
 
 	@Override
-	public int fill(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
+	public int fill(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof InfusionStackWrapper infusionStack) {
-			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.INFUSION_HANDLER, direction).
-					map(handler->handler.insertChemical(infusionStack.stack(), action)).
-					map(stack->infusionStack.getAmount()-stack.getAmount()).orElse(0L).intValue();
+			IInfusionHandler handler = level.getCapability(Capabilities.INFUSION.block(), pos, direction);
+			if(handler != null) {
+				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
+				InfusionStack stack = handler.insertChemical(infusionStack.stack(), action);
+				return (int)(infusionStack.getAmount()-stack.getAmount());
+			}
 		}
 		return 0;
 	}
 
 	@Override
-	public IVolumeStackWrapper drain(ICapabilityProvider capProvider, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
+	public IVolumeStackWrapper drain(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
 		if(resource instanceof InfusionStackWrapper infusionStack) {
-			Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-			return capProvider.getCapability(Capabilities.INFUSION_HANDLER, direction).
-					map(handler->handler.extractChemical(infusionStack.stack(), action)).
-					map(InfusionStackWrapper::new).orElse(InfusionStackWrapper.EMPTY);
+			IInfusionHandler handler = level.getCapability(Capabilities.INFUSION.block(), pos, direction);
+			if(handler != null) {
+				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
+				return new InfusionStackWrapper(handler.extractChemical(infusionStack.stack(), action));
+			}
 		}
 		return InfusionStackWrapper.EMPTY;
 	}

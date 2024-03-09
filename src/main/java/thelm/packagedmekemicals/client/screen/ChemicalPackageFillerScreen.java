@@ -9,11 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.network.PacketDistributor;
 import thelm.packagedauto.client.screen.BaseScreen;
 import thelm.packagedmekemicals.client.ChemicalRenderer;
 import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
-import thelm.packagedmekemicals.network.PacketHandler;
-import thelm.packagedmekemicals.network.packet.SetChemicalAmountPacket;
+import thelm.packagedmekemicals.packet.SetChemicalAmountPacket;
 
 public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFillerMenu> {
 
@@ -55,7 +55,7 @@ public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFille
 			try {
 				int amount = Mth.clamp(Integer.parseInt(amountField.getValue()), 0, 1000000);
 				if(amount != menu.blockEntity.requiredAmount) {
-					PacketHandler.INSTANCE.sendToServer(new SetChemicalAmountPacket(amount));
+					PacketDistributor.SERVER.with(null).send(new SetChemicalAmountPacket(amount));
 				}
 			}
 			catch(NumberFormatException e) {

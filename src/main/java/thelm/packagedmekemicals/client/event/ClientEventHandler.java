@@ -1,9 +1,8 @@
 package thelm.packagedmekemicals.client.event;
 
-import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import thelm.packagedmekemicals.client.screen.ChemicalPackageFillerScreen;
 import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
 
@@ -15,12 +14,12 @@ public class ClientEventHandler {
 		return INSTANCE;
 	}
 
-	public void onConstruct() {
-		FMLJavaModLoadingContext.get().getModEventBus().register(this);
+	public void onConstruct(IEventBus modEventBus) {
+		modEventBus.register(this);
 	}
 
 	@SubscribeEvent
-	public void onClientSetup(FMLClientSetupEvent event) {
-		MenuScreens.register(ChemicalPackageFillerMenu.TYPE_INSTANCE, ChemicalPackageFillerScreen::new);
+	public void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
+		event.register(ChemicalPackageFillerMenu.TYPE_INSTANCE, ChemicalPackageFillerScreen::new);
 	}
 }

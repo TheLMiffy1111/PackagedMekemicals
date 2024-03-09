@@ -1,19 +1,19 @@
 package thelm.packagedmekemicals.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
 
 public class PackagedMekemicalsConfig {
 
 	private PackagedMekemicalsConfig() {}
 
-	private static ForgeConfigSpec serverSpec;
+	private static ModConfigSpec serverSpec;
 
-	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyCapacity;
-	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyReq;
-	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyUsage;
+	public static ModConfigSpec.IntValue chemicalPackageFillerEnergyCapacity;
+	public static ModConfigSpec.IntValue chemicalPackageFillerEnergyReq;
+	public static ModConfigSpec.IntValue chemicalPackageFillerEnergyUsage;
 
 	public static void registerConfig() {
 		buildConfig();
@@ -21,7 +21,7 @@ public class PackagedMekemicalsConfig {
 	}
 
 	private static void buildConfig() {
-		ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+		ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
 		builder.push("chemical_package_filler");
 		builder.comment("How much FE the Chemical Package Filler should hold.");

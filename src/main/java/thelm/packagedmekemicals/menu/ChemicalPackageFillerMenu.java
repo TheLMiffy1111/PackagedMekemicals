@@ -2,8 +2,8 @@ package thelm.packagedmekemicals.menu;
 
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeMenuType;
-import net.minecraftforge.items.SlotItemHandler;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.neoforged.neoforge.items.SlotItemHandler;
 import thelm.packagedauto.menu.BaseMenu;
 import thelm.packagedauto.menu.factory.PositionalBlockEntityMenuFactory;
 import thelm.packagedauto.slot.RemoveOnlySlot;
@@ -11,7 +11,7 @@ import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
 
 public class ChemicalPackageFillerMenu extends BaseMenu<ChemicalPackageFillerBlockEntity> {
 
-	public static final MenuType<ChemicalPackageFillerMenu> TYPE_INSTANCE = IForgeMenuType.create(new PositionalBlockEntityMenuFactory<>(ChemicalPackageFillerMenu::new));
+	public static final MenuType<ChemicalPackageFillerMenu> TYPE_INSTANCE = IMenuTypeExtension.create(new PositionalBlockEntityMenuFactory<>(ChemicalPackageFillerMenu::new));
 
 	public ChemicalPackageFillerMenu(int windowId, Inventory inventory, ChemicalPackageFillerBlockEntity blockEntity) {
 		super(TYPE_INSTANCE, windowId, inventory, blockEntity);
