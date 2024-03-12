@@ -4,19 +4,26 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.pigment.PigmentStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
+import thelm.packagedmekemicals.api.IChemicalStackWrapper;
 
-public record PigmentStackWrapper(PigmentStack stack) implements IVolumeStackWrapper {
+public record PigmentStackWrapper(PigmentStack stack) implements IChemicalStackWrapper {
 
 	public static final PigmentStackWrapper EMPTY = new PigmentStackWrapper(PigmentStack.EMPTY);
 
 	@Override
 	public IVolumeType getVolumeType() {
 		return PigmentVolumeType.INSTANCE;
+	}
+
+	@Override
+	public ChemicalStack<?> getChemical() {
+		return stack;
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import thelm.packagedauto.block.entity.BaseBlockEntity;
 import thelm.packagedauto.block.entity.UnpackagerBlockEntity;
 import thelm.packagedauto.energy.EnergyStorage;
 import thelm.packagedauto.item.VolumePackageItem;
+import thelm.packagedauto.util.MiscHelper;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.inventory.ChemicalPackageFillerItemHandler;
 import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
@@ -201,7 +202,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 			return;
 		}
 		if(itemHandler.getStackInSlot(1).isEmpty()) {
-			itemHandler.setStackInSlot(1, VolumePackageItem.tryMakeVolumePackage(currentChemical));
+			itemHandler.setStackInSlot(1, MiscHelper.INSTANCE.tryMakeVolumePackage(currentChemical));
 		}
 		else if(itemHandler.getStackInSlot(1).getItem() instanceof IVolumePackageItem) {
 			itemHandler.getStackInSlot(1).grow(1);

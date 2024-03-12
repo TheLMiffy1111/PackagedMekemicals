@@ -4,19 +4,26 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.gas.GasStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
+import thelm.packagedmekemicals.api.IChemicalStackWrapper;
 
-public record GasStackWrapper(GasStack stack) implements IVolumeStackWrapper {
+public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 
 	public static final GasStackWrapper EMPTY = new GasStackWrapper(GasStack.EMPTY);
 
 	@Override
 	public IVolumeType getVolumeType() {
 		return GasVolumeType.INSTANCE;
+	}
+
+	@Override
+	public ChemicalStack<?> getChemical() {
+		return stack;
 	}
 
 	@Override

@@ -7,5 +7,8 @@
 	"volume.packagedmekemicals.mekanism.gas": "氣體",
 	"volume.packagedmekemicals.mekanism.infuse_type": "灌注類型",
 	"volume.packagedmekemicals.mekanism.pigment": "顏料",
-	"volume.packagedmekemicals.mekanism.slurry": "漿液"
+	"volume.packagedmekemicals.mekanism.slurry": "漿液",
+
+	"jei.category.packagedmekemicals.chemical_package_filling": "化學品封包填充",
+	"jei.category.packagedmekemicals.chemical_package_contents": "化學品封包內容"
 }
