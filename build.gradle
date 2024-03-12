@@ -1,5 +1,5 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-f4853e7a"
+	id "com.crystaelix.loom" version "jitpack-e3412050"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
@@ -67,7 +67,7 @@ def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "1.2.0.3"
+version = "1.2.1.4"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -108,7 +108,7 @@ dependencies {
 	forge "net.minecraftforge:forge:1.20.1-47.2.20"
 
 	// Dependencies
-	modImplementation "curse.maven:packagedauto-308380:5148845"
+	modImplementation "curse.maven:packagedauto-308380:5176735"
 	modImplementation "mekanism:Mekanism:1.20.1-10.4.5.19"
 	modImplementation("mezz.jei:jei-1.20.1-forge:15.3.0.1") {transitive = false}
 	modImplementation "appeng:appliedenergistics2-forge:15.0.20"

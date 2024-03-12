@@ -7,5 +7,8 @@
 	"volume.packagedmekemicals.mekanism.gas": "Gas",
 	"volume.packagedmekemicals.mekanism.infuse_type": "Infuse Type",
 	"volume.packagedmekemicals.mekanism.pigment": "Pigment",
-	"volume.packagedmekemicals.mekanism.slurry": "Slurry"
+	"volume.packagedmekemicals.mekanism.slurry": "Slurry",
+
+	"jei.category.packagedmekemicals.chemical_package_filling": "Chemical Package Filling",
+	"jei.category.packagedmekemicals.chemical_package_contents": "Chemical Package Contents"
 }
