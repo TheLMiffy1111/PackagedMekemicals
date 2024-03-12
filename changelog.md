@@ -1,2 +1,1 @@
-Change asset indentation to tabs  
-Remove unnecessary mod instance  
+Update to 1.20.4  
