@@ -4,20 +4,27 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
+import thelm.packagedmekemicals.api.IChemicalStackWrapper;
 
-public record SlurryStackWrapper(SlurryStack stack) implements IVolumeStackWrapper {
+public record SlurryStackWrapper(SlurryStack stack) implements IChemicalStackWrapper {
 
 	public static final SlurryStackWrapper EMPTY = new SlurryStackWrapper(SlurryStack.EMPTY);
 
 	@Override
 	public IVolumeType getVolumeType() {
 		return SlurryVolumeType.INSTANCE;
+	}
+
+	@Override
+	public ChemicalStack<?> getChemical() {
+		return stack;
 	}
 
 	@Override
