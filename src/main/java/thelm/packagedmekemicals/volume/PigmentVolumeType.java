@@ -5,6 +5,7 @@ import java.util.Optional;
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.pigment.IPigmentHandler;
+import mekanism.api.chemical.pigment.Pigment;
 import mekanism.api.chemical.pigment.PigmentStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
@@ -39,6 +40,11 @@ public class PigmentVolumeType implements IVolumeType {
 	}
 
 	@Override
+	public Class<?> getTypeBaseClass() {
+		return Pigment.class;
+	}
+
+	@Override
 	public MutableComponent getDisplayName() {
 		return Component.translatable("volume.packagedmekemicals.mekanism.pigment");
 	}
@@ -46,6 +52,19 @@ public class PigmentVolumeType implements IVolumeType {
 	@Override
 	public boolean supportsAE() {
 		return ModList.get().isLoaded("appmek");
+	}
+
+	@Override
+	public Optional<?> makeStackFromBase(Object volumeBase, int amount, CompoundTag nbt) {
+		if(volumeBase instanceof Pigment pigment) {
+			return Optional.of(new PigmentStack(pigment, amount));
+		}
+		else if(volumeBase instanceof PigmentStack pigmentStack) {
+			pigmentStack = pigmentStack.copy();
+			pigmentStack.setAmount(amount);
+			return Optional.of(pigmentStack);
+		}
+		return Optional.empty();
 	}
 
 	@Override

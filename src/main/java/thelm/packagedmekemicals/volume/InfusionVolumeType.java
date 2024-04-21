@@ -5,6 +5,7 @@ import java.util.Optional;
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.infuse.IInfusionHandler;
+import mekanism.api.chemical.infuse.InfuseType;
 import mekanism.api.chemical.infuse.InfusionStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
@@ -39,6 +40,11 @@ public class InfusionVolumeType implements IVolumeType {
 	}
 
 	@Override
+	public Class<?> getTypeBaseClass() {
+		return InfuseType.class;
+	}
+
+	@Override
 	public MutableComponent getDisplayName() {
 		return Component.translatable("volume.packagedmekemicals.mekanism.infuse_type");
 	}
@@ -46,6 +52,19 @@ public class InfusionVolumeType implements IVolumeType {
 	@Override
 	public boolean supportsAE() {
 		return ModList.get().isLoaded("appmek");
+	}
+
+	@Override
+	public Optional<?> makeStackFromBase(Object volumeBase, int amount, CompoundTag nbt) {
+		if(volumeBase instanceof InfuseType infusion) {
+			return Optional.of(new InfusionStack(infusion, amount));
+		}
+		else if(volumeBase instanceof InfusionStack infusionStack) {
+			infusionStack = infusionStack.copy();
+			infusionStack.setAmount(amount);
+			return Optional.of(infusionStack);
+		}
+		return Optional.empty();
 	}
 
 	@Override
