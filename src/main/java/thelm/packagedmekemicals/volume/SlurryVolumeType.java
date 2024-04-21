@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.slurry.ISlurryHandler;
+import mekanism.api.chemical.slurry.Slurry;
 import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.Direction;
@@ -40,6 +41,11 @@ public class SlurryVolumeType implements IVolumeType {
 	}
 
 	@Override
+	public Class<?> getTypeBaseClass() {
+		return Slurry.class;
+	}
+
+	@Override
 	public MutableComponent getDisplayName() {
 		return Component.translatable("volume.packagedmekemicals.mekanism.slurry");
 	}
@@ -47,6 +53,19 @@ public class SlurryVolumeType implements IVolumeType {
 	@Override
 	public boolean supportsAE() {
 		return ModList.get().isLoaded("appmek");
+	}
+
+	@Override
+	public Optional<?> makeStackFromBase(Object volumeBase, int amount, CompoundTag nbt) {
+		if(volumeBase instanceof Slurry slurry) {
+			return Optional.of(new SlurryStack(slurry, amount));
+		}
+		else if(volumeBase instanceof SlurryStack slurryStack) {
+			slurryStack = slurryStack.copy();
+			slurryStack.setAmount(amount);
+			return Optional.of(slurryStack);
+		}
+		return Optional.empty();
 	}
 
 	@Override
