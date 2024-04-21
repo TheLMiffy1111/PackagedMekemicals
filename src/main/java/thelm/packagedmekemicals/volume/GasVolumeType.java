@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
+import mekanism.api.chemical.gas.Gas;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
 import mekanism.common.capabilities.Capabilities;
@@ -40,6 +41,11 @@ public class GasVolumeType implements IVolumeType {
 	}
 
 	@Override
+	public Class<?> getTypeBaseClass() {
+		return Gas.class;
+	}
+
+	@Override
 	public MutableComponent getDisplayName() {
 		return new TranslatableComponent("volume.packagedmekemicals.mekanism.gas");
 	}
@@ -47,6 +53,19 @@ public class GasVolumeType implements IVolumeType {
 	@Override
 	public boolean supportsAE() {
 		return ModList.get().isLoaded("appmek");
+	}
+
+	@Override
+	public Optional<?> makeStackFromBase(Object volumeBase, int amount, CompoundTag nbt) {
+		if(volumeBase instanceof Gas gas) {
+			return Optional.of(new GasStack(gas, amount));
+		}
+		else if(volumeBase instanceof GasStack gasStack) {
+			gasStack = gasStack.copy();
+			gasStack.setAmount(amount);
+			return Optional.of(gasStack);
+		}
+		return Optional.empty();
 	}
 
 	@Override
