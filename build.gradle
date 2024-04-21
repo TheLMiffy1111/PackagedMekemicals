@@ -1,5 +1,5 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-e3412050"
+	id "com.crystaelix.loom" version "jitpack-19fc18ee"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
@@ -112,18 +112,19 @@ dependencies {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.20.4:2024.02.25@zip"
 	}
-	neoForge "net.neoforged:neoforge:20.4.196"
+	neoForge "net.neoforged:neoforge:20.4.232"
 
 	// Dependencies
-	implementation "curse.maven:packagedauto-308380:5176739"
-	implementation "mekanism:Mekanism:1.20.4-10.5.6.28"
+	implementation "curse.maven:packagedauto-308380:5277695"
+	implementation "mekanism:Mekanism:1.20.4-10.5.19.40"
 	implementation("mezz.jei:jei-1.20.4-neoforge:17.3.0.49") {transitive = false}
-	implementation "appeng:appliedenergistics2-neoforge:17.7.1-beta"
+	implementation "dev.emi:emi-neoforge:1.1.4+1.20.4"
+	implementation "appeng:appliedenergistics2-neoforge:17.13.0-beta"
 	implementation "curse.maven:applied-mekanistics-574300:5166576"
 
 	//Performance
 	implementation "curse.maven:yeetusexperimentus-635427:5084420"
-	implementation "curse.maven:modernfix-790626:5157655"
+	implementation "curse.maven:modernfix-790626:5203337"
 	implementation "curse.maven:ferritecore-429235:4954175"
 }
 

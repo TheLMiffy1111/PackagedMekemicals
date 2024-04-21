@@ -1,1 +1,3 @@
-Update to 1.20.4  
+Added partial EMI support  
+Added recipe lookup to the chemical amount specification stack  
+Updated Mekanism  

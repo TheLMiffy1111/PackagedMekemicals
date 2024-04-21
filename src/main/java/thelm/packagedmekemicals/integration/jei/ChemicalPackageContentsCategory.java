@@ -2,8 +2,8 @@ package thelm.packagedmekemicals.integration.jei;
 
 import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.ChemicalType;
-import mekanism.client.jei.ChemicalStackRenderer;
-import mekanism.client.jei.MekanismJEI;
+import mekanism.client.recipe_viewer.jei.ChemicalStackRenderer;
+import mekanism.client.recipe_viewer.jei.MekanismJEI;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
