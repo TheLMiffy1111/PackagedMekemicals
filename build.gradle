@@ -1,5 +1,5 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-19fc18ee"
+	id "com.crystaelix.loom" version "jitpack-39f2e017"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
@@ -115,7 +115,7 @@ dependencies {
 	forge "net.minecraftforge:forge:1.19.2-43.3.8"
 
 	// Dependencies
-	modImplementation "curse.maven:packagedauto-308380:5277690"
+	modImplementation "curse.maven:packagedauto-308380:5385586"
 	modImplementation "mekanism:Mekanism:1.19.2-10.3.9.13"
 	modImplementation("mezz.jei:jei-1.19.2-forge:11.6.0.1019") {transitive = false}
 	modImplementation "dev.emi:emi-forge:1.1.4+1.19.2"
