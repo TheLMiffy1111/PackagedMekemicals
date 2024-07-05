@@ -55,7 +55,7 @@ public class ChemicalRenderer {
 		float vMin = textureSprite.getV0();
 		float vMax = textureSprite.getV1();
 		uMax = uMax - (maskRight / 16F * (uMax - uMin));
-		vMax = vMax - (maskTop / 16F * (vMax - vMin));
+		vMin = vMin + (maskTop / 16F * (vMax - vMin));
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
