@@ -42,6 +42,9 @@ public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFille
 		amountField.setValue(String.valueOf(menu.blockEntity.requiredAmount));
 		amountField.setTextColor(0xFFFFFF);
 		amountField.setFilter(s->{
+			if(menu.blockEntity.isWorking) {
+				return false;
+			}
 			if(s.isEmpty()) {
 				return true;
 			}

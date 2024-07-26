@@ -258,7 +258,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 	public void updatePowered() {
 		if(level.getBestNeighborSignal(worldPosition) > 0 != powered) {
 			powered = !powered;
-			if(powered) {
+			if(powered && !isWorking) {
 				activated = true;
 			}
 			setChanged();
