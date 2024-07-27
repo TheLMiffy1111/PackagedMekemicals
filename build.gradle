@@ -115,7 +115,7 @@ dependencies {
 	forge "net.minecraftforge:forge:1.19.2-43.4.0"
 
 	// Dependencies
-	modImplementation "curse.maven:packagedauto-308380:5568618"
+	modImplementation "curse.maven:packagedauto-308380:5570727"
 	modImplementation "mekanism:Mekanism:1.19.2-10.3.9.13"
 	modImplementation("mezz.jei:jei-1.19.2-forge:11.6.0.1024") {transitive = false}
 	modImplementation "dev.emi:emi-forge:1.1.10+1.19.2"
