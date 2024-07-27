@@ -3,8 +3,12 @@ package thelm.packagedmekemicals.capability;
 import mekanism.api.Action;
 import mekanism.api.chemical.pigment.IPigmentHandler;
 import mekanism.api.chemical.pigment.PigmentStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
+import thelm.packagedauto.api.IVolumeStackWrapper;
+import thelm.packagedauto.component.PackagedAutoDataComponents;
+import thelm.packagedmekemicals.api.IChemicalStackWrapper;
+import thelm.packagedmekemicals.volume.PigmentStackWrapper;
 
 public class StackPigmentHandlerItem implements IPigmentHandler {
 
@@ -15,21 +19,21 @@ public class StackPigmentHandlerItem implements IPigmentHandler {
 	}
 
 	public PigmentStack getPigment() {
-		CompoundTag tagCompound = container.getTag();
-		if(tagCompound == null || !tagCompound.contains("Pigment")) {
-			return PigmentStack.EMPTY;
+		IVolumeStackWrapper stack = container.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
+		if(stack instanceof IChemicalStackWrapper chemical) {
+			if(chemical.getChemical() instanceof PigmentStack pigment) {
+				return pigment;
+			}
 		}
-		return PigmentStack.readFromNBT(tagCompound.getCompound("Pigment"));
+		return PigmentStack.EMPTY;
 	}
 
 	public void setPigment(PigmentStack pigment)  {
 		if(pigment != null && !pigment.isEmpty()) {
-			if(!container.hasTag()) {
-				container.setTag(new CompoundTag());
-			}
-			CompoundTag pigmentTag = new CompoundTag();
-			pigment.write(pigmentTag);
-			container.getTag().put("Pigment", pigmentTag);
+			DataComponentPatch patch = DataComponentPatch.builder().
+					set(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK.get(), PigmentStackWrapper.of(pigment)).
+					build();
+			container.applyComponents(patch);
 		}
 	}
 

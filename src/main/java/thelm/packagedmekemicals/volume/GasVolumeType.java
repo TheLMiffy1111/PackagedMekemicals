@@ -2,6 +2,8 @@ package thelm.packagedmekemicals.volume;
 
 import java.util.Optional;
 
+import com.mojang.serialization.Codec;
+
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.gas.Gas;
@@ -11,9 +13,11 @@ import mekanism.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -28,7 +32,7 @@ import thelm.packagedmekemicals.util.ChemicalHelper;
 public class GasVolumeType implements IVolumeType {
 
 	public static final GasVolumeType INSTANCE = new GasVolumeType();
-	public static final ResourceLocation NAME = new ResourceLocation("mekanism:gas");
+	public static final ResourceLocation NAME = ResourceLocation.parse("mekanism:gas");
 
 	@Override
 	public ResourceLocation getName() {
@@ -56,7 +60,7 @@ public class GasVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Optional<?> makeStackFromBase(Object volumeBase, int amount, CompoundTag nbt) {
+	public Optional<?> makeStackFromBase(Object volumeBase, int amount, DataComponentPatch patch) {
 		if(volumeBase instanceof Gas gas) {
 			return Optional.of(new GasStack(gas, amount));
 		}
@@ -98,8 +102,13 @@ public class GasVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public IVolumeStackWrapper loadStack(CompoundTag tag) {
-		return new GasStackWrapper(GasStack.readFromNBT(tag));
+	public Codec<? extends IVolumeStackWrapper> getStackCodec() {
+		return GasStackWrapper.CODEC;
+	}
+
+	@Override
+	public StreamCodec<RegistryFriendlyByteBuf, ? extends IVolumeStackWrapper> getStackStreamCodec() {
+		return GasStackWrapper.STREAM_CODEC;
 	}
 
 	@Override

@@ -3,11 +3,15 @@ package thelm.packagedmekemicals.volume;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.serialization.Codec;
 
-import mekanism.api.chemical.ChemicalStack;
+import mekanism.api.MekanismAPI;
 import mekanism.api.chemical.gas.GasStack;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.api.IChemicalStackWrapper;
@@ -16,13 +20,25 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 
 	public static final GasStackWrapper EMPTY = new GasStackWrapper(GasStack.EMPTY);
 
+	public static final Codec<GasStackWrapper> CODEC = GasStack.CODEC.xmap(
+			GasStackWrapper::of, GasStackWrapper::getChemical);
+	public static final StreamCodec<RegistryFriendlyByteBuf, GasStackWrapper> STREAM_CODEC = GasStack.STREAM_CODEC.map(
+			GasStackWrapper::of, GasStackWrapper::getChemical);
+
+	public static GasStackWrapper of(GasStack stack) {
+		if(stack.isEmpty()) {
+			return EMPTY;
+		}
+		return new GasStackWrapper(stack);
+	}
+
 	@Override
 	public IVolumeType getVolumeType() {
 		return GasVolumeType.INSTANCE;
 	}
 
 	@Override
-	public ChemicalStack<?> getChemical() {
+	public GasStack getChemical() {
 		return stack;
 	}
 
@@ -37,8 +53,8 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 	}
 
 	@Override
-	public void setAmount(int amount) {
-		stack.setAmount(amount);
+	public IVolumeStackWrapper withAmount(int amount) {
+		return new GasStackWrapper(stack.copyWithAmount(amount));
 	}
 
 	@Override
@@ -47,15 +63,13 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag) {
-		return stack.write(tag);
-	}
-
-	@Override
-	public CompoundTag saveAEKey(CompoundTag tag) {
-		tag.putString("#c", "appmek:chemical");
-		tag.putByte("t", (byte)0);
-		return stack.write(tag);
+	public CompoundTag saveAEKey(CompoundTag tag, HolderLookup.Provider registries) {
+		tag.putString("#t", "appmek:chemical");
+		CompoundTag idTag = new CompoundTag();
+		idTag.putString("chemical_type", "gas");
+		idTag.putString("gas", MekanismAPI.GAS_REGISTRY.getKey(stack.getChemical()).toString());
+		tag.put("id", idTag);
+		return tag;
 	}
 
 	@Override

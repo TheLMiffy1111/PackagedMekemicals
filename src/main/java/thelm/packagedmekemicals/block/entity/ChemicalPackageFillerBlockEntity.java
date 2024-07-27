@@ -15,6 +15,7 @@ import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
@@ -27,9 +28,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
-import thelm.packagedauto.api.IVolumePackageItem;
-import thelm.packagedauto.block.UnpackagerBlock;
+import thelm.packagedauto.block.PackagedAutoBlocks;
 import thelm.packagedauto.block.entity.BaseBlockEntity;
+import thelm.packagedauto.component.PackagedAutoDataComponents;
 import thelm.packagedauto.energy.EnergyStorage;
 import thelm.packagedauto.item.VolumePackageItem;
 import thelm.packagedauto.util.MiscHelper;
@@ -127,7 +128,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 		}
 		ItemStack slotStack = itemHandler.getStackInSlot(1);
 		ItemStack outputStack = MiscHelper.INSTANCE.tryMakeVolumePackage(currentChemical);
-		return !outputStack.isEmpty() && (slotStack.isEmpty() || ItemStack.isSameItemSameTags(slotStack, outputStack) && slotStack.getCount()+1 <= outputStack.getMaxStackSize());
+		return !outputStack.isEmpty() && (slotStack.isEmpty() || ItemStack.isSameItemSameComponents(slotStack, outputStack) && slotStack.getCount()+1 <= outputStack.getMaxStackSize());
 	}
 
 	protected boolean canFinish() {
@@ -202,7 +203,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 		if(itemHandler.getStackInSlot(1).isEmpty()) {
 			itemHandler.setStackInSlot(1, VolumePackageItem.tryMakeVolumePackage(currentChemical));
 		}
-		else if(itemHandler.getStackInSlot(1).getItem() instanceof IVolumePackageItem) {
+		else if(itemHandler.getStackInSlot(1).has(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK)) {
 			itemHandler.getStackInSlot(1).grow(1);
 		}
 		endProcess();
@@ -230,7 +231,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 			IInfusionHandler infusionHandler = level.getCapability(Capabilities.INFUSION.block(), offsetPos, direction.getOpposite());
 			IPigmentHandler pigmentHandler = level.getCapability(Capabilities.PIGMENT.block(), offsetPos, direction.getOpposite());
 			ISlurryHandler slurryHandler = level.getCapability(Capabilities.SLURRY.block(), offsetPos, direction.getOpposite());
-			if(block != UnpackagerBlock.INSTANCE && itemHandler != null &&
+			if(block != PackagedAutoBlocks.UNPACKAGER.get() && itemHandler != null &&
 					gasHandler == null && infusionHandler == null &&
 					pigmentHandler == null && slurryHandler == null) {
 				ItemStack stack = this.itemHandler.getStackInSlot(1);
@@ -276,35 +277,35 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
-		isWorking = nbt.getBoolean("Working");
-		amount = nbt.getInt("Amount");
-		remainingProgress = nbt.getInt("Progress");
-		powered = nbt.getBoolean("Powered");
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+		isWorking = nbt.getBoolean("working");
+		amount = nbt.getInt("amount");
+		remainingProgress = nbt.getInt("progress");
+		powered = nbt.getBoolean("powered");
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
-		nbt.putBoolean("Working", isWorking);
-		nbt.putInt("Amount", amount);
-		nbt.putInt("Progress", remainingProgress);
-		nbt.putBoolean("Powered", powered);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+		nbt.putBoolean("working", isWorking);
+		nbt.putInt("amount", amount);
+		nbt.putInt("progress", remainingProgress);
+		nbt.putBoolean("powered", powered);
 	}
 
 	@Override
-	public void loadSync(CompoundTag nbt) {
-		super.loadSync(nbt);
-		currentChemical = BoxedChemicalStack.read(nbt.getCompound("Chemical")).getChemicalStack();
-		requiredAmount = nbt.getInt("AmountReq");
+	public void loadSync(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadSync(nbt, registries);
+		currentChemical = BoxedChemicalStack.parseOptional(registries, nbt.getCompound("chemical")).getChemicalStack();
+		requiredAmount = nbt.getInt("amount_req");
 	}
 
 	@Override
-	public CompoundTag saveSync(CompoundTag nbt) {
-		super.saveSync(nbt);
-		nbt.put("Chemical", BoxedChemicalStack.box(currentChemical).write(new CompoundTag()));
-		nbt.putInt("AmountReq", requiredAmount);
+	public CompoundTag saveSync(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveSync(nbt, registries);
+		nbt.put("chemical", BoxedChemicalStack.box(currentChemical).saveOptional(registries));
+		nbt.putInt("amount_req", requiredAmount);
 		return nbt;
 	}
 

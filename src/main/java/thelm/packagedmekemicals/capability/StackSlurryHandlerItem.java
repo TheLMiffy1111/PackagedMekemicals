@@ -3,8 +3,12 @@ package thelm.packagedmekemicals.capability;
 import mekanism.api.Action;
 import mekanism.api.chemical.slurry.ISlurryHandler;
 import mekanism.api.chemical.slurry.SlurryStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
+import thelm.packagedauto.api.IVolumeStackWrapper;
+import thelm.packagedauto.component.PackagedAutoDataComponents;
+import thelm.packagedmekemicals.api.IChemicalStackWrapper;
+import thelm.packagedmekemicals.volume.SlurryStackWrapper;
 
 public class StackSlurryHandlerItem implements ISlurryHandler {
 
@@ -15,21 +19,21 @@ public class StackSlurryHandlerItem implements ISlurryHandler {
 	}
 
 	public SlurryStack getSlurry() {
-		CompoundTag tagCompound = container.getTag();
-		if(tagCompound == null || !tagCompound.contains("Slurry")) {
-			return SlurryStack.EMPTY;
+		IVolumeStackWrapper stack = container.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
+		if(stack instanceof IChemicalStackWrapper chemical) {
+			if(chemical.getChemical() instanceof SlurryStack slurry) {
+				return slurry;
+			}
 		}
-		return SlurryStack.readFromNBT(tagCompound.getCompound("Slurry"));
+		return SlurryStack.EMPTY;
 	}
 
 	public void setSlurry(SlurryStack slurry)  {
 		if(slurry != null && !slurry.isEmpty()) {
-			if(!container.hasTag()) {
-				container.setTag(new CompoundTag());
-			}
-			CompoundTag slurryTag = new CompoundTag();
-			slurry.write(slurryTag);
-			container.getTag().put("Slurry", slurryTag);
+			DataComponentPatch patch = DataComponentPatch.builder().
+					set(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK.get(), SlurryStackWrapper.of(slurry)).
+					build();
+			container.applyComponents(patch);
 		}
 	}
 

@@ -3,11 +3,15 @@ package thelm.packagedmekemicals.volume;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.serialization.Codec;
 
-import mekanism.api.chemical.ChemicalStack;
+import mekanism.api.MekanismAPI;
 import mekanism.api.chemical.pigment.PigmentStack;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.api.IChemicalStackWrapper;
@@ -16,13 +20,25 @@ public record PigmentStackWrapper(PigmentStack stack) implements IChemicalStackW
 
 	public static final PigmentStackWrapper EMPTY = new PigmentStackWrapper(PigmentStack.EMPTY);
 
+	public static final Codec<PigmentStackWrapper> CODEC = PigmentStack.CODEC.xmap(
+			PigmentStackWrapper::of, PigmentStackWrapper::getChemical);
+	public static final StreamCodec<RegistryFriendlyByteBuf, PigmentStackWrapper> STREAM_CODEC = PigmentStack.STREAM_CODEC.map(
+			PigmentStackWrapper::of, PigmentStackWrapper::getChemical);
+
+	public static PigmentStackWrapper of(PigmentStack stack) {
+		if(stack.isEmpty()) {
+			return EMPTY;
+		}
+		return new PigmentStackWrapper(stack);
+	}
+
 	@Override
 	public IVolumeType getVolumeType() {
 		return PigmentVolumeType.INSTANCE;
 	}
 
 	@Override
-	public ChemicalStack<?> getChemical() {
+	public PigmentStack getChemical() {
 		return stack;
 	}
 
@@ -37,8 +53,8 @@ public record PigmentStackWrapper(PigmentStack stack) implements IChemicalStackW
 	}
 
 	@Override
-	public void setAmount(int amount) {
-		stack.setAmount(amount);
+	public IVolumeStackWrapper withAmount(int amount) {
+		return new PigmentStackWrapper(stack.copyWithAmount(amount));
 	}
 
 	@Override
@@ -47,15 +63,13 @@ public record PigmentStackWrapper(PigmentStack stack) implements IChemicalStackW
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag) {
-		return stack.write(tag);
-	}
-
-	@Override
-	public CompoundTag saveAEKey(CompoundTag tag) {
-		tag.putString("#c", "appmek:chemical");
-		tag.putByte("t", (byte)2);
-		return stack.write(tag);
+	public CompoundTag saveAEKey(CompoundTag tag, HolderLookup.Provider registries) {
+		tag.putString("#t", "appmek:chemical");
+		CompoundTag idTag = new CompoundTag();
+		idTag.putString("chemical_type", "pigment");
+		idTag.putString("pigment", MekanismAPI.PIGMENT_REGISTRY.getKey(stack.getChemical()).toString());
+		tag.put("id", idTag);
+		return tag;
 	}
 
 	@Override

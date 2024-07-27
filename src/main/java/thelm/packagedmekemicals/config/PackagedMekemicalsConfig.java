@@ -17,7 +17,7 @@ public class PackagedMekemicalsConfig {
 
 	public static void registerConfig() {
 		buildConfig();
-		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, serverSpec);
+		ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.SERVER, serverSpec);
 	}
 
 	private static void buildConfig() {

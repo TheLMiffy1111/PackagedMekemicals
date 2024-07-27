@@ -3,8 +3,12 @@ package thelm.packagedmekemicals.capability;
 import mekanism.api.Action;
 import mekanism.api.chemical.gas.GasStack;
 import mekanism.api.chemical.gas.IGasHandler;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
+import thelm.packagedauto.api.IVolumeStackWrapper;
+import thelm.packagedauto.component.PackagedAutoDataComponents;
+import thelm.packagedmekemicals.api.IChemicalStackWrapper;
+import thelm.packagedmekemicals.volume.GasStackWrapper;
 
 public class StackGasHandlerItem implements IGasHandler {
 
@@ -15,21 +19,21 @@ public class StackGasHandlerItem implements IGasHandler {
 	}
 
 	public GasStack getGas() {
-		CompoundTag tagCompound = container.getTag();
-		if(tagCompound == null || !tagCompound.contains("Gas")) {
-			return GasStack.EMPTY;
+		IVolumeStackWrapper stack = container.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
+		if(stack instanceof IChemicalStackWrapper chemical) {
+			if(chemical.getChemical() instanceof GasStack gas) {
+				return gas;
+			}
 		}
-		return GasStack.readFromNBT(tagCompound.getCompound("Gas"));
+		return GasStack.EMPTY;
 	}
 
 	public void setGas(GasStack gas)  {
 		if(gas != null && !gas.isEmpty()) {
-			if(!container.hasTag()) {
-				container.setTag(new CompoundTag());
-			}
-			CompoundTag gasTag = new CompoundTag();
-			gas.write(gasTag);
-			container.getTag().put("Gas", gasTag);
+			DataComponentPatch patch = DataComponentPatch.builder().
+					set(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK.get(), GasStackWrapper.of(gas)).
+					build();
+			container.applyComponents(patch);
 		}
 	}
 

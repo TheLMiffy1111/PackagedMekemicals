@@ -3,8 +3,12 @@ package thelm.packagedmekemicals.capability;
 import mekanism.api.Action;
 import mekanism.api.chemical.infuse.IInfusionHandler;
 import mekanism.api.chemical.infuse.InfusionStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.item.ItemStack;
+import thelm.packagedauto.api.IVolumeStackWrapper;
+import thelm.packagedauto.component.PackagedAutoDataComponents;
+import thelm.packagedmekemicals.api.IChemicalStackWrapper;
+import thelm.packagedmekemicals.volume.InfusionStackWrapper;
 
 public class StackInfusionHandlerItem implements IInfusionHandler {
 
@@ -15,21 +19,21 @@ public class StackInfusionHandlerItem implements IInfusionHandler {
 	}
 
 	public InfusionStack getInfusion() {
-		CompoundTag tagCompound = container.getTag();
-		if(tagCompound == null || !tagCompound.contains("Infusion")) {
-			return InfusionStack.EMPTY;
+		IVolumeStackWrapper stack = container.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
+		if(stack instanceof IChemicalStackWrapper chemical) {
+			if(chemical.getChemical() instanceof InfusionStack infusion) {
+				return infusion;
+			}
 		}
-		return InfusionStack.readFromNBT(tagCompound.getCompound("Infusion"));
+		return InfusionStack.EMPTY;
 	}
 
 	public void setInfusion(InfusionStack infusion)  {
 		if(infusion != null && !infusion.isEmpty()) {
-			if(!container.hasTag()) {
-				container.setTag(new CompoundTag());
-			}
-			CompoundTag infusionTag = new CompoundTag();
-			infusion.write(infusionTag);
-			container.getTag().put("Infusion", infusionTag);
+			DataComponentPatch patch = DataComponentPatch.builder().
+					set(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK.get(), InfusionStackWrapper.of(infusion)).
+					build();
+			container.applyComponents(patch);
 		}
 	}
 

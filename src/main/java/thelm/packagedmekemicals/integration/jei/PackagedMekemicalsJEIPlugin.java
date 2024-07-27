@@ -17,8 +17,8 @@ import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 @JeiPlugin
 public class PackagedMekemicalsJEIPlugin implements IModPlugin {
 
-	public static final ResourceLocation UID = new ResourceLocation("packagedmekemicals:jei");
-	public static final ResourceLocation BACKGROUND = new ResourceLocation("packagedmekemicals:textures/gui/jei.png");
+	public static final ResourceLocation UID = ResourceLocation.parse("packagedmekemicals:jei");
+	public static final ResourceLocation BACKGROUND = ResourceLocation.parse("packagedmekemicals:textures/gui/jei.png");
 
 	@Override
 	public ResourceLocation getPluginUid() {

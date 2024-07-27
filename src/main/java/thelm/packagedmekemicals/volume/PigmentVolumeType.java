@@ -2,6 +2,8 @@ package thelm.packagedmekemicals.volume;
 
 import java.util.Optional;
 
+import com.mojang.serialization.Codec;
+
 import mekanism.api.Action;
 import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
 import mekanism.api.chemical.pigment.IPigmentHandler;
@@ -11,9 +13,11 @@ import mekanism.common.capabilities.Capabilities;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -28,7 +32,7 @@ import thelm.packagedmekemicals.util.ChemicalHelper;
 public class PigmentVolumeType implements IVolumeType {
 
 	public static final PigmentVolumeType INSTANCE = new PigmentVolumeType();
-	public static final ResourceLocation NAME = new ResourceLocation("mekanism:pigment");
+	public static final ResourceLocation NAME = ResourceLocation.parse("mekanism:pigment");
 
 	@Override
 	public ResourceLocation getName() {
@@ -56,7 +60,7 @@ public class PigmentVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public Optional<?> makeStackFromBase(Object volumeBase, int amount, CompoundTag nbt) {
+	public Optional<?> makeStackFromBase(Object volumeBase, int amount, DataComponentPatch patch) {
 		if(volumeBase instanceof Pigment pigment) {
 			return Optional.of(new PigmentStack(pigment, amount));
 		}
@@ -98,8 +102,13 @@ public class PigmentVolumeType implements IVolumeType {
 	}
 
 	@Override
-	public IVolumeStackWrapper loadStack(CompoundTag tag) {
-		return new PigmentStackWrapper(PigmentStack.readFromNBT(tag));
+	public Codec<? extends IVolumeStackWrapper> getStackCodec() {
+		return PigmentStackWrapper.CODEC;
+	}
+
+	@Override
+	public StreamCodec<RegistryFriendlyByteBuf, ? extends IVolumeStackWrapper> getStackStreamCodec() {
+		return PigmentStackWrapper.STREAM_CODEC;
 	}
 
 	@Override

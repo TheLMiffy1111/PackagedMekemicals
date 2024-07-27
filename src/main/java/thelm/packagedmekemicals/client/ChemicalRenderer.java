@@ -4,6 +4,7 @@ import org.joml.Matrix4f;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -37,7 +38,7 @@ public class ChemicalRenderer {
 	}
 
 	private static TextureAtlasSprite getChemicalSprite(ChemicalStack<?> chemicalStack) {
-		ResourceLocation icon = chemicalStack.getType().getIcon();
+		ResourceLocation icon = chemicalStack.getChemical().getIcon();
 		return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(icon);
 	}
 
@@ -58,13 +59,12 @@ public class ChemicalRenderer {
 		vMin = vMin + (maskTop / 16F * (vMax - vMin));
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		Tesselator tessellator = Tesselator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-		bufferBuilder.vertex(matrix, xCoord, yCoord + 16, zLevel).uv(uMin, vMax).endVertex();
-		bufferBuilder.vertex(matrix, xCoord + 16 - maskRight, yCoord + 16, zLevel).uv(uMax, vMax).endVertex();
-		bufferBuilder.vertex(matrix, xCoord + 16 - maskRight, yCoord + maskTop, zLevel).uv(uMax, vMin).endVertex();
-		bufferBuilder.vertex(matrix, xCoord, yCoord + maskTop, zLevel).uv(uMin, vMin).endVertex();
-		tessellator.end();
+		BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+		bufferBuilder.addVertex(matrix, xCoord, yCoord + 16, zLevel).setUv(uMin, vMax);
+		bufferBuilder.addVertex(matrix, xCoord + 16 - maskRight, yCoord + 16, zLevel).setUv(uMax, vMax);
+		bufferBuilder.addVertex(matrix, xCoord + 16 - maskRight, yCoord + maskTop, zLevel).setUv(uMax, vMin);
+		bufferBuilder.addVertex(matrix, xCoord, yCoord + maskTop, zLevel).setUv(uMin, vMin);
+		BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
 	}
 
 	public void render(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack<?> chemicalStack) {
@@ -82,7 +82,7 @@ public class ChemicalRenderer {
 		if(capacity <= 0 || chemicalStack == null || chemicalStack.isEmpty()) {
 			return;
 		}
-		Chemical<?> chemical = chemicalStack.getType();
+		Chemical<?> chemical = chemicalStack.getChemical();
 		TextureAtlasSprite chemicalSprite = getChemicalSprite(chemicalStack);
 		int chemicalColor = chemical.getTint();
 		int amount = (int)chemicalStack.getAmount();

@@ -17,7 +17,7 @@ import thelm.packagedmekemicals.packet.SetChemicalAmountPacket;
 
 public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFillerMenu> {
 
-	public static final ResourceLocation BACKGROUND = new ResourceLocation("packagedmekemicals:textures/gui/chemical_package_filler.png");
+	public static final ResourceLocation BACKGROUND = ResourceLocation.parse("packagedmekemicals:textures/gui/chemical_package_filler.png");
 	public static final ChemicalRenderer CHEMICAL_RENDERER = new ChemicalRenderer(16, 52, 1);
 
 	protected EditBox amountField;
@@ -58,7 +58,7 @@ public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFille
 			try {
 				int amount = Mth.clamp(Integer.parseInt(amountField.getValue()), 0, 1000000);
 				if(amount != menu.blockEntity.requiredAmount) {
-					PacketDistributor.SERVER.with(null).send(new SetChemicalAmountPacket(amount));
+					PacketDistributor.sendToServer(new SetChemicalAmountPacket(amount));
 				}
 			}
 			catch(NumberFormatException e) {

@@ -10,9 +10,9 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.advanced.IRecipeManagerPlugin;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.world.item.ItemStack;
-import thelm.packagedauto.api.IVolumePackageItem;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
+import thelm.packagedauto.component.PackagedAutoDataComponents;
 import thelm.packagedmekemicals.volume.GasVolumeType;
 import thelm.packagedmekemicals.volume.InfusionVolumeType;
 import thelm.packagedmekemicals.volume.PigmentVolumeType;
@@ -24,8 +24,9 @@ public class ChemicalPackageManagerPlugin implements IRecipeManagerPlugin {
 	public <V> List<RecipeType<?>> getRecipeTypes(IFocus<V> focus) {
 		V ingredient = focus.getTypedValue().getIngredient();
 		if(ingredient instanceof ItemStack stack) {
-			if(stack.getItem() instanceof IVolumePackageItem vPackage) {
-				IVolumeType vType = vPackage.getVolumeType(stack);
+			if(stack.has(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK)) {
+				IVolumeStackWrapper vStack = stack.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
+				IVolumeType vType = vStack.getVolumeType();
 				if(vType == GasVolumeType.INSTANCE ||
 						vType == InfusionVolumeType.INSTANCE ||
 						vType == PigmentVolumeType.INSTANCE ||
@@ -53,14 +54,15 @@ public class ChemicalPackageManagerPlugin implements IRecipeManagerPlugin {
 		RecipeType<T> type = recipeCategory.getRecipeType();
 		V ingredient = focus.getTypedValue().getIngredient();
 		if(ingredient instanceof ItemStack stack) {
-			if(stack.getItem() instanceof IVolumePackageItem vPackage) {
-				IVolumeType vType = vPackage.getVolumeType(stack);
+			if(stack.has(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK)) {
+				IVolumeStackWrapper vStack = stack.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
+				IVolumeType vType = vStack.getVolumeType();
 				if(vType == GasVolumeType.INSTANCE ||
 						vType == InfusionVolumeType.INSTANCE ||
 						vType == PigmentVolumeType.INSTANCE ||
 						vType == SlurryVolumeType.INSTANCE) {
 					if(ChemicalPackageContentsCategory.TYPE.equals(type) || ChemicalPackageFillingCategory.TYPE.equals(type)) {
-						return (List<T>)List.of(vPackage.getVolumeStack(stack));
+						return (List<T>)List.of(vStack);
 					}
 				}
 			}

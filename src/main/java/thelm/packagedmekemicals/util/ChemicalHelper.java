@@ -14,7 +14,6 @@ import mekanism.api.chemical.slurry.ISlurryHandler;
 import mekanism.api.chemical.slurry.SlurryStack;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 public class ChemicalHelper {
 
@@ -28,7 +27,7 @@ public class ChemicalHelper {
 
 	public Optional<GasStack> getGasContained(ItemStack container) {
 		if(!container.isEmpty()) {
-			container = ItemHandlerHelper.copyStackWithSize(container, 1);
+			container = container.copyWithCount(1);
 			return getGasHandler(container).
 					map(handler->handler.extractChemical(Long.MAX_VALUE, Action.SIMULATE)).
 					filter(stack->!stack.isEmpty());
@@ -42,7 +41,7 @@ public class ChemicalHelper {
 
 	public Optional<InfusionStack> getInfusionContained(ItemStack container) {
 		if(!container.isEmpty()) {
-			container = ItemHandlerHelper.copyStackWithSize(container, 1);
+			container = container.copyWithCount(1);
 			return getInfusionHandler(container).
 					map(handler->handler.extractChemical(Long.MAX_VALUE, Action.SIMULATE)).
 					filter(stack->!stack.isEmpty());
@@ -56,7 +55,7 @@ public class ChemicalHelper {
 
 	public Optional<PigmentStack> getPigmentContained(ItemStack container) {
 		if(!container.isEmpty()) {
-			container = ItemHandlerHelper.copyStackWithSize(container, 1);
+			container = container.copyWithCount(1);
 			return getPigmentHandler(container).
 					map(handler->handler.extractChemical(Long.MAX_VALUE, Action.SIMULATE)).
 					filter(stack->!stack.isEmpty());
@@ -70,7 +69,7 @@ public class ChemicalHelper {
 
 	public Optional<SlurryStack> getSlurryContained(ItemStack container) {
 		if(!container.isEmpty()) {
-			container = ItemHandlerHelper.copyStackWithSize(container, 1);
+			container = container.copyWithCount(1);
 			return getSlurryHandler(container).
 					map(handler->handler.extractChemical(Long.MAX_VALUE, Action.SIMULATE)).
 					filter(stack->!stack.isEmpty());

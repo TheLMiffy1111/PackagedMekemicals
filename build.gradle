@@ -70,19 +70,19 @@ sourceSets {
 	main
 }
 
-def mcVersion = "1.20.4"
+def mcVersion = "1.21"
 def modName = "PackagedMekemicals"
 def modId = "packagedmekemicals"
 def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "2.0.a.4"
+version = "2.0.b.0"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
 java {
-	toolchain.languageVersion = JavaLanguageVersion.of(17)
+	toolchain.languageVersion = JavaLanguageVersion.of(21)
 	withSourcesJar()
 }
 
@@ -107,25 +107,25 @@ dependencies {
 	implementation "org.apache.logging.log4j:log4j-core:2.22.1"
 
 	// Minecraft
-	minecraft "com.mojang:minecraft:1.20.4"
+	minecraft "com.mojang:minecraft:1.21"
 	mappings loom.layered {
 		officialMojangMappings()
-		parchment "org.parchmentmc.data:parchment-1.20.4:2024.02.25@zip"
+		parchment "org.parchmentmc.data:parchment-1.21:2024.07.07@zip"
 	}
-	neoForge "net.neoforged:neoforge:20.4.237"
+	neoForge "net.neoforged:neoforge:21.0.133-beta"
 
 	// Dependencies
-	implementation "curse.maven:packagedauto-308380:5570734"
-	implementation "mekanism:Mekanism:1.20.4-10.5.19.40"
-	implementation("mezz.jei:jei-1.20.4-neoforge:17.3.1.3") {transitive = false}
-	implementation "dev.emi:emi-neoforge:1.1.10+1.20.4"
-	implementation "appeng:appliedenergistics2-neoforge:17.13.0-beta"
-	implementation "curse.maven:applied-mekanistics-574300:5166576"
+	implementation "curse.maven:packagedauto-308380:5571062"
+	implementation "mekanism:Mekanism:1.21-10.6.6.53"
+	implementation("mezz.jei:jei-1.21-neoforge:19.5.0.59") {transitive = false}
+	implementation "dev.emi:emi-neoforge:1.1.10+1.21"
+	implementation "appeng:appliedenergistics2:19.0.16-beta"
+	implementation "curse.maven:applied-mekanistics-574300:5530305"
 
 	//Performance
-	implementation "curse.maven:yeetusexperimentus-635427:5084420"
-	implementation "curse.maven:modernfix-790626:5288162"
-	implementation "curse.maven:ferritecore-429235:4954175"
+	implementation "curse.maven:yeetusexperimentus-635427:5444189"
+	implementation "curse.maven:modernfix-790626:5527238"
+	implementation "curse.maven:ferritecore-429235:5434178"
 }
 
 def replacements = [

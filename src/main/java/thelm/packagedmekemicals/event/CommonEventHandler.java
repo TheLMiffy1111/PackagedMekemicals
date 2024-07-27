@@ -14,8 +14,8 @@ import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
-import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thelm.packagedauto.block.entity.BaseBlockEntity;
 import thelm.packagedauto.util.ApiImpl;
@@ -84,13 +84,21 @@ public class CommonEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onRegisterPayloadHandler(RegisterPayloadHandlerEvent event) {
-		IPayloadRegistrar registrar = event.registrar("packagedmekemicals");
-		registrar.play(SetChemicalAmountPacket.ID, SetChemicalAmountPacket::read, builder->builder.client(SetChemicalAmountPacket::handle));
+	public void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event) {
+		PayloadRegistrar registrar = event.registrar("packagedmekemicals");
+		registrar.playToServer(SetChemicalAmountPacket.TYPE, SetChemicalAmountPacket.STREAM_CODEC, SetChemicalAmountPacket::handle);
 	}
 
 	@SubscribeEvent
-	public void onModConfig(ModConfigEvent event) {
+	public void onModConfigLoading(ModConfigEvent.Loading event) {
+		switch(event.getConfig().getType()) {
+		case SERVER -> PackagedMekemicalsConfig.reloadServerConfig();
+		default -> {}
+		}
+	}
+
+	@SubscribeEvent
+	public void onModConfigReloading(ModConfigEvent.Reloading event) {
 		switch(event.getConfig().getType()) {
 		case SERVER -> PackagedMekemicalsConfig.reloadServerConfig();
 		default -> {}
