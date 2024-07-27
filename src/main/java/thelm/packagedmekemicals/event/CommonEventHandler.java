@@ -18,7 +18,6 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
 import net.neoforged.neoforge.network.registration.IPayloadRegistrar;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import thelm.packagedauto.block.entity.BaseBlockEntity;
-import thelm.packagedauto.item.PackageItem;
 import thelm.packagedauto.util.ApiImpl;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
@@ -62,7 +61,7 @@ public class CommonEventHandler {
 		creativeTabRegister.register(modEventBus);
 		creativeTabRegister.register("tab", ()->CreativeModeTab.builder().
 				title(Component.translatable("itemGroup.packagedmekemicals")).
-				icon(()->new ItemStack(PackageItem.INSTANCE)).
+				icon(()->new ItemStack(ChemicalPackageFillerBlock.ITEM_INSTANCE)).
 				displayItems((parameters, output)->{
 					output.accept(ChemicalPackageFillerBlock.ITEM_INSTANCE);
 				}).
