@@ -14,7 +14,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import thelm.packagedauto.item.PackageItem;
 import thelm.packagedauto.util.ApiImpl;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
@@ -59,7 +58,7 @@ public class CommonEventHandler {
 		creativeTabRegister.register(modEventBus);
 		creativeTabRegister.register("tab", ()->CreativeModeTab.builder().
 				title(Component.translatable("itemGroup.packagedmekemicals")).
-				icon(()->new ItemStack(PackageItem.INSTANCE)).
+				icon(()->new ItemStack(ChemicalPackageFillerBlock.ITEM_INSTANCE)).
 				displayItems((parameters, output)->{
 					output.accept(ChemicalPackageFillerBlock.ITEM_INSTANCE);
 				}).
