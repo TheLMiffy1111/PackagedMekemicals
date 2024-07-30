@@ -112,19 +112,19 @@ dependencies {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.21:2024.07.07@zip"
 	}
-	neoForge "net.neoforged:neoforge:21.0.133-beta"
+	neoForge "net.neoforged:neoforge:21.0.146"
 
 	// Dependencies
-	implementation "curse.maven:packagedauto-308380:5571062"
-	implementation "mekanism:Mekanism:1.21-10.6.6.53"
-	implementation("mezz.jei:jei-1.21-neoforge:19.5.0.59") {transitive = false}
+	implementation "curse.maven:packagedauto-308380:5580582"
+	implementation "mekanism:Mekanism:1.21-10.6.7.54"
+	implementation("mezz.jei:jei-1.21-neoforge:19.5.2.66") {transitive = false}
 	implementation "dev.emi:emi-neoforge:1.1.10+1.21"
-	implementation "appeng:appliedenergistics2:19.0.16-beta"
-	implementation "curse.maven:applied-mekanistics-574300:5530305"
+	implementation "appeng:appliedenergistics2:19.0.17-beta"
+	implementation "curse.maven:applied-mekanistics-574300:5564115"
 
 	//Performance
 	implementation "curse.maven:yeetusexperimentus-635427:5444189"
-	implementation "curse.maven:modernfix-790626:5527238"
+	implementation "curse.maven:modernfix-790626:5569656"
 	implementation "curse.maven:ferritecore-429235:5434178"
 }
 
