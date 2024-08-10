@@ -1,10 +1,10 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-af214fdb"
+	id "com.crystaelix.loom" version "jitpack-6cccf24f"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
 	id "net.kyori.blossom" version "[1,2)"
-	id "me.modmuss50.mod-publish-plugin" version "0.5.0"
+	id "me.modmuss50.mod-publish-plugin" version "0.7.2"
 }
 
 repositories {
@@ -118,7 +118,7 @@ dependencies {
 	modImplementation "curse.maven:packagedauto-308380:5580570"
 	modImplementation "mekanism:Mekanism:1.19.2-10.3.9.13"
 	modImplementation("mezz.jei:jei-1.19.2-forge:11.6.0.1024") {transitive = false}
-	modImplementation "dev.emi:emi-forge:1.1.10+1.19.2"
+	modImplementation "dev.emi:emi-forge:1.1.12+1.19.2"
 	modImplementation "appeng:appliedenergistics2-forge:12.9.8"
 	modImplementation "curse.maven:applied-mekanistics-574300:4734608"
 	modImplementation "vazkii.patchouli:Patchouli:1.19.2-77"
