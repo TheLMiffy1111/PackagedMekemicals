@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import mekanism.api.chemical.ChemicalStack;
-import mekanism.api.chemical.ChemicalType;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.advanced.IRecipeManagerPlugin;
@@ -13,10 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedauto.component.PackagedAutoDataComponents;
-import thelm.packagedmekemicals.volume.GasVolumeType;
-import thelm.packagedmekemicals.volume.InfusionVolumeType;
-import thelm.packagedmekemicals.volume.PigmentVolumeType;
-import thelm.packagedmekemicals.volume.SlurryVolumeType;
+import thelm.packagedmekemicals.volume.ChemicalVolumeType;
 
 public class ChemicalPackageManagerPlugin implements IRecipeManagerPlugin {
 
@@ -27,10 +23,7 @@ public class ChemicalPackageManagerPlugin implements IRecipeManagerPlugin {
 			if(stack.has(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK)) {
 				IVolumeStackWrapper vStack = stack.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
 				IVolumeType vType = vStack.getVolumeType();
-				if(vType == GasVolumeType.INSTANCE ||
-						vType == InfusionVolumeType.INSTANCE ||
-						vType == PigmentVolumeType.INSTANCE ||
-						vType == SlurryVolumeType.INSTANCE) {
+				if(vType == ChemicalVolumeType.INSTANCE) {
 					switch(focus.getRole()) {
 					case INPUT: return List.of(ChemicalPackageContentsCategory.TYPE);
 					case OUTPUT: return List.of(ChemicalPackageFillingCategory.TYPE);
@@ -39,7 +32,7 @@ public class ChemicalPackageManagerPlugin implements IRecipeManagerPlugin {
 				}
 			}
 		}
-		if(ingredient instanceof ChemicalStack<?> stack) {
+		if(ingredient instanceof ChemicalStack stack) {
 			switch(focus.getRole()) {
 			case INPUT: return List.of(ChemicalPackageFillingCategory.TYPE);
 			case OUTPUT: return List.of(ChemicalPackageContentsCategory.TYPE);
@@ -56,26 +49,16 @@ public class ChemicalPackageManagerPlugin implements IRecipeManagerPlugin {
 		if(ingredient instanceof ItemStack stack) {
 			if(stack.has(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK)) {
 				IVolumeStackWrapper vStack = stack.get(PackagedAutoDataComponents.VOLUME_PACKAGE_STACK);
-				IVolumeType vType = vStack.getVolumeType();
-				if(vType == GasVolumeType.INSTANCE ||
-						vType == InfusionVolumeType.INSTANCE ||
-						vType == PigmentVolumeType.INSTANCE ||
-						vType == SlurryVolumeType.INSTANCE) {
+				if(vStack.getVolumeType() == ChemicalVolumeType.INSTANCE) {
 					if(ChemicalPackageContentsCategory.TYPE.equals(type) || ChemicalPackageFillingCategory.TYPE.equals(type)) {
 						return (List<T>)List.of(vStack);
 					}
 				}
 			}
 		}
-		if(ingredient instanceof ChemicalStack<?> stack) {
+		if(ingredient instanceof ChemicalStack stack) {
 			if(ChemicalPackageContentsCategory.TYPE.equals(type) || ChemicalPackageFillingCategory.TYPE.equals(type)) {
-				IVolumeType vType = switch(ChemicalType.getTypeFor(stack)) {
-				case GAS -> GasVolumeType.INSTANCE;
-				case INFUSION -> InfusionVolumeType.INSTANCE;
-				case PIGMENT -> PigmentVolumeType.INSTANCE;
-				case SLURRY -> SlurryVolumeType.INSTANCE;
-				};
-				Optional<IVolumeStackWrapper> vStack = vType.wrapStack(stack);
+				Optional<IVolumeStackWrapper> vStack = ChemicalVolumeType.INSTANCE.wrapStack(stack);
 				if(vStack.isPresent()) {
 					return (List<T>)List.of(vStack.get());
 				}

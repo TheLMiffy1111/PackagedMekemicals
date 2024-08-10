@@ -5,5 +5,5 @@ import thelm.packagedauto.api.IVolumeStackWrapper;
 
 public interface IChemicalStackWrapper extends IVolumeStackWrapper {
 
-	ChemicalStack<?> getChemical();
+	ChemicalStack getChemical();
 }

@@ -24,6 +24,7 @@ import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
 import thelm.packagedmekemicals.config.PackagedMekemicalsConfig;
 import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
 import thelm.packagedmekemicals.packet.SetChemicalAmountPacket;
+import thelm.packagedmekemicals.volume.ChemicalVolumeType;
 import thelm.packagedmekemicals.volume.GasVolumeType;
 import thelm.packagedmekemicals.volume.InfusionVolumeType;
 import thelm.packagedmekemicals.volume.PigmentVolumeType;
@@ -70,6 +71,8 @@ public class CommonEventHandler {
 
 	@SubscribeEvent
 	public void onCommonSetup(FMLCommonSetupEvent event) {
+		ApiImpl.INSTANCE.registerVolumeType(ChemicalVolumeType.INSTANCE);
+
 		ApiImpl.INSTANCE.registerVolumeType(GasVolumeType.INSTANCE);
 		ApiImpl.INSTANCE.registerVolumeType(InfusionVolumeType.INSTANCE);
 		ApiImpl.INSTANCE.registerVolumeType(PigmentVolumeType.INSTANCE);

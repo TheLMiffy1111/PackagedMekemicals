@@ -2,16 +2,7 @@ package thelm.packagedmekemicals.block.entity;
 
 import mekanism.api.Action;
 import mekanism.api.chemical.ChemicalStack;
-import mekanism.api.chemical.ChemicalType;
-import mekanism.api.chemical.gas.GasStack;
-import mekanism.api.chemical.gas.IGasHandler;
-import mekanism.api.chemical.infuse.IInfusionHandler;
-import mekanism.api.chemical.infuse.InfusionStack;
-import mekanism.api.chemical.merged.BoxedChemicalStack;
-import mekanism.api.chemical.pigment.IPigmentHandler;
-import mekanism.api.chemical.pigment.PigmentStack;
-import mekanism.api.chemical.slurry.ISlurryHandler;
-import mekanism.api.chemical.slurry.SlurryStack;
+import mekanism.api.chemical.IChemicalHandler;
 import mekanism.common.capabilities.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -50,7 +41,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 
 	public boolean firstTick = true;
 	public boolean isWorking = false;
-	public ChemicalStack<?> currentChemical = GasStack.EMPTY;
+	public ChemicalStack currentChemical = ChemicalStack.EMPTY;
 	public int requiredAmount = 100;
 	public int amount = 0;
 	public int remainingProgress = 0;
@@ -136,7 +127,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 	}
 
 	protected void getChemical() {
-		currentChemical = GasStack.EMPTY;
+		currentChemical = ChemicalStack.EMPTY;
 		ItemStack template = itemHandler.getStackInSlot(0);
 		if(template.isEmpty()) {
 			return;
@@ -150,39 +141,11 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 		if(amount < requiredAmount) {
 			for(Direction direction : Direction.values()) {
 				BlockPos offsetPos = worldPosition.relative(direction);
-				switch(ChemicalType.getTypeFor(currentChemical)) {
-				case GAS -> {
-					IGasHandler gasHandler = level.getCapability(Capabilities.GAS.block(), offsetPos, direction.getOpposite());
-					if(gasHandler != null) {
-						GasStack toDrain = (GasStack)currentChemical.copy();
-						toDrain.setAmount(requiredAmount-amount);
-						amount += gasHandler.extractChemical(toDrain, Action.EXECUTE).getAmount();
-					}
-				}
-				case INFUSION -> {
-					IInfusionHandler infusionHandler = level.getCapability(Capabilities.INFUSION.block(), offsetPos, direction.getOpposite());
-					if(infusionHandler != null) {
-						InfusionStack toDrain = (InfusionStack)currentChemical.copy();
-						toDrain.setAmount(requiredAmount-amount);
-						amount += infusionHandler.extractChemical(toDrain, Action.EXECUTE).getAmount();
-					}
-				}
-				case PIGMENT -> {
-					IPigmentHandler pigmentHandler = level.getCapability(Capabilities.PIGMENT.block(), offsetPos, direction.getOpposite());
-					if(pigmentHandler != null) {
-						PigmentStack toDrain = (PigmentStack)currentChemical.copy();
-						toDrain.setAmount(requiredAmount-amount);
-						amount += pigmentHandler.extractChemical(toDrain, Action.EXECUTE).getAmount();
-					}
-				}
-				case SLURRY -> {
-					ISlurryHandler slurryHandler = level.getCapability(Capabilities.SLURRY.block(), offsetPos, direction.getOpposite());
-					if(slurryHandler != null) {
-						SlurryStack toDrain = (SlurryStack)currentChemical.copy();
-						toDrain.setAmount(requiredAmount-amount);
-						amount += slurryHandler.extractChemical(toDrain, Action.EXECUTE).getAmount();
-					}
-				}
+				IChemicalHandler chemicalHandler = level.getCapability(Capabilities.CHEMICAL.block(), offsetPos, direction.getOpposite());
+				if(chemicalHandler != null) {
+					ChemicalStack toDrain = currentChemical.copy();
+					toDrain.setAmount(requiredAmount-amount);
+					amount += chemicalHandler.extractChemical(toDrain, Action.EXECUTE).getAmount();
 				}
 			}
 		}
@@ -227,13 +190,8 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 			BlockPos offsetPos = worldPosition.relative(direction);
 			Block block = level.getBlockState(offsetPos).getBlock();
 			IItemHandler itemHandler = level.getCapability(Capabilities.ITEM.block(), offsetPos, direction.getOpposite());
-			IGasHandler gasHandler = level.getCapability(Capabilities.GAS.block(), offsetPos, direction.getOpposite());
-			IInfusionHandler infusionHandler = level.getCapability(Capabilities.INFUSION.block(), offsetPos, direction.getOpposite());
-			IPigmentHandler pigmentHandler = level.getCapability(Capabilities.PIGMENT.block(), offsetPos, direction.getOpposite());
-			ISlurryHandler slurryHandler = level.getCapability(Capabilities.SLURRY.block(), offsetPos, direction.getOpposite());
-			if(block != PackagedAutoBlocks.UNPACKAGER.get() && itemHandler != null &&
-					gasHandler == null && infusionHandler == null &&
-					pigmentHandler == null && slurryHandler == null) {
+			IChemicalHandler chemicalHandler = level.getCapability(Capabilities.CHEMICAL.block(), offsetPos, direction.getOpposite());
+			if(block != PackagedAutoBlocks.UNPACKAGER.get() && itemHandler != null && chemicalHandler == null) {
 				ItemStack stack = this.itemHandler.getStackInSlot(1);
 				if(!stack.isEmpty()) {
 					ItemStack stackRem = ItemHandlerHelper.insertItem(itemHandler, stack, false);
@@ -297,14 +255,14 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 	@Override
 	public void loadSync(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.loadSync(nbt, registries);
-		currentChemical = BoxedChemicalStack.parseOptional(registries, nbt.getCompound("chemical")).getChemicalStack();
+		currentChemical = ChemicalStack.parseOptional(registries, nbt.getCompound("chemical"));
 		requiredAmount = nbt.getInt("amount_req");
 	}
 
 	@Override
 	public CompoundTag saveSync(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.saveSync(nbt, registries);
-		nbt.put("chemical", BoxedChemicalStack.box(currentChemical).saveOptional(registries));
+		nbt.put("chemical", currentChemical.saveOptional(registries));
 		nbt.putInt("amount_req", requiredAmount);
 		return nbt;
 	}

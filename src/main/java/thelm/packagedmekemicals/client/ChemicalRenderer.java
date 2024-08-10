@@ -37,7 +37,7 @@ public class ChemicalRenderer {
 		this.minHeight = minHeight;
 	}
 
-	private static TextureAtlasSprite getChemicalSprite(ChemicalStack<?> chemicalStack) {
+	private static TextureAtlasSprite getChemicalSprite(ChemicalStack chemicalStack) {
 		ResourceLocation icon = chemicalStack.getChemical().getIcon();
 		return Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS).apply(icon);
 	}
@@ -67,22 +67,22 @@ public class ChemicalRenderer {
 		BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
 	}
 
-	public void render(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack<?> chemicalStack) {
+	public void render(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack chemicalStack) {
 		render(graphics, xPosition, yPosition, chemicalStack, FluidType.BUCKET_VOLUME);
 	}
 
-	public void render(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
+	public void render(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack chemicalStack, int capacity) {
 		RenderSystem.enableBlend();
 		drawChemical(graphics, xPosition, yPosition, chemicalStack, capacity);
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 		RenderSystem.disableBlend();
 	}
 
-	private void drawChemical(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack<?> chemicalStack, int capacity) {
+	private void drawChemical(GuiGraphics graphics, int xPosition, int yPosition, ChemicalStack chemicalStack, int capacity) {
 		if(capacity <= 0 || chemicalStack == null || chemicalStack.isEmpty()) {
 			return;
 		}
-		Chemical<?> chemical = chemicalStack.getChemical();
+		Chemical chemical = chemicalStack.getChemical();
 		TextureAtlasSprite chemicalSprite = getChemicalSprite(chemicalStack);
 		int chemicalColor = chemical.getTint();
 		int amount = (int)chemicalStack.getAmount();

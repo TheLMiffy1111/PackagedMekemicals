@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 
 import mekanism.api.MekanismAPI;
-import mekanism.api.chemical.gas.GasStack;
+import mekanism.api.chemical.ChemicalStack;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -16,29 +16,29 @@ import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.api.IChemicalStackWrapper;
 
-public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
+public record ChemicalStackWrapper(ChemicalStack stack) implements IChemicalStackWrapper {
 
-	public static final GasStackWrapper EMPTY = new GasStackWrapper(GasStack.EMPTY);
+	public static final ChemicalStackWrapper EMPTY = new ChemicalStackWrapper(ChemicalStack.EMPTY);
 
-	public static final Codec<GasStackWrapper> CODEC = GasStack.CODEC.xmap(
-			GasStackWrapper::of, GasStackWrapper::getChemical);
-	public static final StreamCodec<RegistryFriendlyByteBuf, GasStackWrapper> STREAM_CODEC = GasStack.STREAM_CODEC.map(
-			GasStackWrapper::of, GasStackWrapper::getChemical);
+	public static final Codec<ChemicalStackWrapper> CODEC = ChemicalStack.CODEC.xmap(
+			ChemicalStackWrapper::of, ChemicalStackWrapper::getChemical);
+	public static final StreamCodec<RegistryFriendlyByteBuf, ChemicalStackWrapper> STREAM_CODEC = ChemicalStack.STREAM_CODEC.map(
+			ChemicalStackWrapper::of, ChemicalStackWrapper::getChemical);
 
-	public static GasStackWrapper of(GasStack stack) {
+	public static ChemicalStackWrapper of(ChemicalStack stack) {
 		if(stack.isEmpty()) {
 			return EMPTY;
 		}
-		return new GasStackWrapper(stack);
+		return new ChemicalStackWrapper(stack);
 	}
 
 	@Override
 	public IVolumeType getVolumeType() {
-		return GasVolumeType.INSTANCE;
+		return ChemicalVolumeType.INSTANCE;
 	}
 
 	@Override
-	public GasStack getChemical() {
+	public ChemicalStack getChemical() {
 		return stack;
 	}
 
@@ -49,12 +49,12 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 
 	@Override
 	public IVolumeStackWrapper copy() {
-		return new GasStackWrapper(stack.copy());
+		return new ChemicalStackWrapper(stack.copy());
 	}
 
 	@Override
 	public IVolumeStackWrapper withAmount(int amount) {
-		return new GasStackWrapper(stack.copyWithAmount(amount));
+		return new ChemicalStackWrapper(stack.copyWithAmount(amount));
 	}
 
 	@Override
@@ -65,10 +65,7 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 	@Override
 	public CompoundTag saveAEKey(CompoundTag tag, HolderLookup.Provider registries) {
 		tag.putString("#t", "appmek:chemical");
-		CompoundTag idTag = new CompoundTag();
-		idTag.putString("chemical_type", "gas");
-		idTag.putString("gas", MekanismAPI.GAS_REGISTRY.getKey(stack.getChemical()).toString());
-		tag.put("id", idTag);
+		tag.putString("id", MekanismAPI.CHEMICAL_REGISTRY.getKey(stack.getChemical()).toString());
 		return tag;
 	}
 
@@ -94,7 +91,7 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof GasStackWrapper other) {
+		if(obj instanceof ChemicalStackWrapper other) {
 			return stack.equals(other.stack);
 		}
 		return false;

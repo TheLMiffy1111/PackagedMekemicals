@@ -80,7 +80,7 @@ public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFille
 			graphics.blit(BACKGROUND, leftPos+102, topPos+30, 176, 56, 6, 5);
 		}
 
-		ChemicalStack<?> stack = menu.blockEntity.currentChemical.copy();
+		ChemicalStack stack = menu.blockEntity.currentChemical.copy();
 		if(!stack.isEmpty()) {
 			stack.setAmount(menu.blockEntity.amount);
 			CHEMICAL_RENDERER.render(graphics, leftPos+80, topPos+17, stack, menu.blockEntity.requiredAmount);

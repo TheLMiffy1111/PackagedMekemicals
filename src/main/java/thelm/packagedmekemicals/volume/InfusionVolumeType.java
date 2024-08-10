@@ -1,35 +1,9 @@
 package thelm.packagedmekemicals.volume;
 
-import java.util.Optional;
-
-import com.mojang.serialization.Codec;
-
-import mekanism.api.Action;
-import mekanism.api.chemical.attribute.ChemicalAttributeValidator;
-import mekanism.api.chemical.infuse.IInfusionHandler;
-import mekanism.api.chemical.infuse.InfuseType;
-import mekanism.api.chemical.infuse.InfusionStack;
-import mekanism.common.capabilities.Capabilities;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.capabilities.ItemCapability;
-import thelm.packagedauto.api.IVolumeStackWrapper;
-import thelm.packagedauto.api.IVolumeType;
-import thelm.packagedmekemicals.capability.StackInfusionHandlerItem;
-import thelm.packagedmekemicals.client.ChemicalRenderer;
-import thelm.packagedmekemicals.util.ChemicalHelper;
 
-public class InfusionVolumeType implements IVolumeType {
+@Deprecated
+public class InfusionVolumeType extends ChemicalVolumeType {
 
 	public static final InfusionVolumeType INSTANCE = new InfusionVolumeType();
 	public static final ResourceLocation NAME = ResourceLocation.parse("mekanism:infuse_type");
@@ -41,137 +15,7 @@ public class InfusionVolumeType implements IVolumeType {
 
 	@Override
 	public Class<?> getTypeClass() {
-		return InfusionStack.class;
-	}
-
-	@Override
-	public Class<?> getTypeBaseClass() {
-		return InfuseType.class;
-	}
-
-	@Override
-	public MutableComponent getDisplayName() {
-		return Component.translatable("volume.packagedmekemicals.mekanism.infuse_type");
-	}
-
-	@Override
-	public boolean supportsAE() {
-		return ModList.get().isLoaded("appmek");
-	}
-
-	@Override
-	public Optional<?> makeStackFromBase(Object volumeBase, int amount, DataComponentPatch patch) {
-		if(volumeBase instanceof InfuseType infusion) {
-			return Optional.of(new InfusionStack(infusion, amount));
-		}
-		else if(volumeBase instanceof InfusionStack infusionStack) {
-			infusionStack = infusionStack.copy();
-			infusionStack.setAmount(amount);
-			return Optional.of(infusionStack);
-		}
-		return Optional.empty();
-	}
-
-	@Override
-	public IVolumeStackWrapper getEmptyStackInstance() {
-		return InfusionStackWrapper.EMPTY;
-	}
-
-	@Override
-	public Optional<IVolumeStackWrapper> wrapStack(Object volumeStack) {
-		if(volumeStack instanceof InfusionStack infusionStack && ChemicalAttributeValidator.DEFAULT.process(infusionStack)) {
-			return Optional.of(new InfusionStackWrapper(infusionStack));
-		}
-		return Optional.empty();
-	}
-
-	@Override
-	public Optional<IVolumeStackWrapper> getStackContained(ItemStack container) {
-		return ChemicalHelper.INSTANCE.getInfusionContained(container).map(InfusionStackWrapper::new);
-	}
-
-	@Override
-	public void setStack(ItemStack stack, IVolumeStackWrapper volumeStack) {
-		if(volumeStack instanceof InfusionStackWrapper infusionStack) {
-			ChemicalHelper.INSTANCE.getInfusionHandler(stack).ifPresent(handler->{
-				if(handler instanceof StackInfusionHandlerItem vHandler) {
-					vHandler.setInfusion(infusionStack.stack());
-				}
-			});
-		}
-	}
-
-	@Override
-	public Codec<? extends IVolumeStackWrapper> getStackCodec() {
-		return InfusionStackWrapper.CODEC;
-	}
-
-	@Override
-	public StreamCodec<RegistryFriendlyByteBuf, ? extends IVolumeStackWrapper> getStackStreamCodec() {
-		return InfusionStackWrapper.STREAM_CODEC;
-	}
-
-	@Override
-	public IInfusionHandler makeItemCapability(ItemStack volumePackage) {
-		return new StackInfusionHandlerItem(volumePackage);
-	}
-
-	@Override
-	public ItemCapability<IInfusionHandler, Void> getItemCapability() {
-		return Capabilities.INFUSION.item();
-	}
-
-	@Override
-	public boolean hasBlockCapability(Level level, BlockPos pos, Direction direction) {
-		return level.getCapability(Capabilities.INFUSION.block(), pos, direction) != null;
-	}
-
-	@Override
-	public boolean isEmpty(Level level, BlockPos pos, Direction direction) {
-		IInfusionHandler handler = level.getCapability(Capabilities.INFUSION.block(), pos, direction);
-		if(handler != null) {
-			if(handler.getTanks() == 0) {
-				return false;
-			}
-			for(int i = 0; i < handler.getTanks(); ++i) {
-				if(!handler.getChemicalInTank(i).isEmpty()) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public int fill(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
-		if(resource instanceof InfusionStackWrapper infusionStack) {
-			IInfusionHandler handler = level.getCapability(Capabilities.INFUSION.block(), pos, direction);
-			if(handler != null) {
-				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-				InfusionStack stack = handler.insertChemical(infusionStack.stack(), action);
-				return (int)(infusionStack.getAmount()-stack.getAmount());
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public IVolumeStackWrapper drain(Level level, BlockPos pos, Direction direction, IVolumeStackWrapper resource, boolean simulate) {
-		if(resource instanceof InfusionStackWrapper infusionStack) {
-			IInfusionHandler handler = level.getCapability(Capabilities.INFUSION.block(), pos, direction);
-			if(handler != null) {
-				Action action = simulate ? Action.SIMULATE : Action.EXECUTE;
-				return new InfusionStackWrapper(handler.extractChemical(infusionStack.stack(), action));
-			}
-		}
-		return InfusionStackWrapper.EMPTY;
-	}
-
-	@Override
-	public void render(GuiGraphics graphics, int i, int j, IVolumeStackWrapper stack) {
-		if(stack instanceof InfusionStackWrapper infusionStack) {
-			ChemicalRenderer.INSTANCE.render(graphics, i, j, infusionStack.stack());
-		}
+		class DummyStack {}
+		return DummyStack.class;
 	}
 }

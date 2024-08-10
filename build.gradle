@@ -1,10 +1,10 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-af214fdb"
+	id "com.crystaelix.loom" version "jitpack-6cccf24f"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
 	id "net.kyori.blossom" version "[1,2)"
-	id "me.modmuss50.mod-publish-plugin" version "0.5.0"
+	id "me.modmuss50.mod-publish-plugin" version "0.7.2"
 }
 
 repositories {
@@ -70,14 +70,14 @@ sourceSets {
 	main
 }
 
-def mcVersion = "1.21"
+def mcVersion = "1.21.1"
 def modName = "PackagedMekemicals"
 def modId = "packagedmekemicals"
 def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "2.0.b.0"
+version = "2.0.0.0"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -107,24 +107,24 @@ dependencies {
 	implementation "org.apache.logging.log4j:log4j-core:2.22.1"
 
 	// Minecraft
-	minecraft "com.mojang:minecraft:1.21"
+	minecraft "com.mojang:minecraft:1.21.1"
 	mappings loom.layered {
 		officialMojangMappings()
-		parchment "org.parchmentmc.data:parchment-1.21:2024.07.07@zip"
+		parchment "org.parchmentmc.data:parchment-1.21:2024.07.28@zip"
 	}
-	neoForge "net.neoforged:neoforge:21.0.146"
+	neoForge "net.neoforged:neoforge:21.1.37"
 
 	// Dependencies
 	implementation "curse.maven:packagedauto-308380:5580582"
-	implementation "mekanism:Mekanism:1.21-10.6.7.54"
-	implementation("mezz.jei:jei-1.21-neoforge:19.5.2.66") {transitive = false}
-	implementation "dev.emi:emi-neoforge:1.1.10+1.21"
-	implementation "appeng:appliedenergistics2:19.0.17-beta"
-	implementation "curse.maven:applied-mekanistics-574300:5564115"
+	implementation "mekanism:Mekanism:1.21.1-10.7.7.64"
+	implementation("mezz.jei:jei-1.21.1-neoforge:19.16.4.170") {transitive = false}
+	implementation "dev.emi:emi-neoforge:1.1.12+1.21"
+	implementation "appeng:appliedenergistics2:19.0.22-beta"
+	implementation "curse.maven:applied-mekanistics-574300:5664061"
 
 	//Performance
 	implementation "curse.maven:yeetusexperimentus-635427:5444189"
-	implementation "curse.maven:modernfix-790626:5569656"
+	implementation "curse.maven:modernfix-790626:5659985"
 	implementation "curse.maven:ferritecore-429235:5434178"
 }
 
@@ -166,7 +166,7 @@ publishMods {
 	file = remapJar.archiveFile
 	version = displayName = "${mcVersion}-${project.version}"
 	changelog = file("changelog.md").text
-	type = ALPHA
+	type = BETA
 	modLoaders.add("neoforge")
 	additionalFiles.from(remapSourcesJar.archiveFile)
 
