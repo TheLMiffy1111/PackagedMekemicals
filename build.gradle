@@ -1,10 +1,10 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-6cccf24f"
+	id "com.crystaelix.loom" version "jitpack-3a42c174"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
 	id "net.kyori.blossom" version "[1,2)"
-	id "me.modmuss50.mod-publish-plugin" version "0.7.2"
+	id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 }
 
 repositories {
@@ -104,7 +104,7 @@ loom {
 
 dependencies {
 	// Log4j
-	implementation "org.apache.logging.log4j:log4j-core:2.22.1"
+	implementation "org.apache.logging.log4j:log4j-core:2.24.1"
 
 	// Minecraft
 	minecraft "com.mojang:minecraft:1.19.2"
@@ -115,10 +115,10 @@ dependencies {
 	forge "net.minecraftforge:forge:1.19.2-43.4.2"
 
 	// Dependencies
-	modImplementation "curse.maven:packagedauto-308380:5580570"
+	modImplementation "curse.maven:packagedauto-308380:5846682"
 	modImplementation "mekanism:Mekanism:1.19.2-10.3.9.13"
-	modImplementation("mezz.jei:jei-1.19.2-forge:11.6.0.1024") {transitive = false}
-	modImplementation "dev.emi:emi-forge:1.1.12+1.19.2"
+	modImplementation("mezz.jei:jei-1.19.2-forge:11.8.1.1033") {transitive = false}
+	modImplementation "dev.emi:emi-forge:1.1.16+1.19.2"
 	modImplementation "appeng:appliedenergistics2-forge:12.9.8"
 	modImplementation "curse.maven:applied-mekanistics-574300:4734608"
 	modImplementation "vazkii.patchouli:Patchouli:1.19.2-77"
@@ -126,7 +126,7 @@ dependencies {
 	// Performance
 	modImplementation "curse.maven:yeetusexperimentus-635427:3909789"
 	implementation "io.github.llamalad7:mixinextras-forge:0.3.6"
-	modImplementation "curse.maven:modernfix-790626:5399366"
+	modImplementation "curse.maven:modernfix-790626:5803581"
 	modImplementation "curse.maven:ferritecore-429235:4117906"
 	modImplementation "curse.maven:lazy-dfu-forge-460819:4327266"
 }
