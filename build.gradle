@@ -1,10 +1,10 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-6cccf24f"
+	id "com.crystaelix.loom" version "jitpack-3a42c174"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
 	id "net.kyori.blossom" version "[1,2)"
-	id "me.modmuss50.mod-publish-plugin" version "0.7.2"
+	id "me.modmuss50.mod-publish-plugin" version "0.7.4"
 }
 
 repositories {
@@ -104,7 +104,7 @@ loom {
 
 dependencies {
 	// Log4j
-	implementation "org.apache.logging.log4j:log4j-core:2.22.1"
+	implementation "org.apache.logging.log4j:log4j-core:2.24.1"
 
 	// Minecraft
 	minecraft "com.mojang:minecraft:1.21.1"
@@ -112,14 +112,15 @@ dependencies {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.21:2024.07.28@zip"
 	}
-	neoForge "net.neoforged:neoforge:21.1.37"
+	neoForge "net.neoforged:neoforge:21.1.62"
 
 	// Dependencies
-	implementation "curse.maven:packagedauto-308380:5580582"
+	implementation "curse.maven:packagedauto-308380:5846687"
 	implementation "mekanism:Mekanism:1.21.1-10.7.7.64"
-	implementation("mezz.jei:jei-1.21.1-neoforge:19.16.4.170") {transitive = false}
-	implementation "dev.emi:emi-neoforge:1.1.12+1.21"
-	implementation "appeng:appliedenergistics2:19.0.22-beta"
+	implementation("mezz.jei:jei-1.21.1-neoforge:19.21.0.246") {transitive = false}
+	implementation "dev.emi:emi-neoforge:1.1.16+1.21.1"
+	implementation "appeng:appliedenergistics2:19.0.23-beta"
+	implementation "curse.maven:ae2-jei-integration-1074338:5748513"
 	implementation "curse.maven:applied-mekanistics-574300:5664061"
 
 	//Performance
