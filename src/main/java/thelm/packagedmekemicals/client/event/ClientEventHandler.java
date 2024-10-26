@@ -4,7 +4,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import thelm.packagedmekemicals.client.screen.ChemicalPackageFillerScreen;
-import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
+import thelm.packagedmekemicals.menu.PackagedMekemicalsMenus;
 
 public class ClientEventHandler {
 
@@ -20,6 +20,6 @@ public class ClientEventHandler {
 
 	@SubscribeEvent
 	public void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
-		event.register(ChemicalPackageFillerMenu.TYPE_INSTANCE, ChemicalPackageFillerScreen::new);
+		event.register(PackagedMekemicalsMenus.CHEMICAL_PACKAGE_FILLER.get(), ChemicalPackageFillerScreen::new);
 	}
 }

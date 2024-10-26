@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
+import thelm.packagedmekemicals.block.PackagedMekemicalsBlocks;
 
 @JeiPlugin
 public class PackagedMekemicalsJEIPlugin implements IModPlugin {
@@ -38,7 +39,7 @@ public class PackagedMekemicalsJEIPlugin implements IModPlugin {
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
 		if(!ModList.get().isLoaded("emi")) {
-			registration.addRecipeCatalyst(new ItemStack(ChemicalPackageFillerBlock.INSTANCE), ChemicalPackageFillingCategory.TYPE);
+			registration.addRecipeCatalyst(PackagedMekemicalsBlocks.CHEMICAL_PACKAGE_FILLER.toStack(), ChemicalPackageFillingCategory.TYPE);
 		}
 	}
 

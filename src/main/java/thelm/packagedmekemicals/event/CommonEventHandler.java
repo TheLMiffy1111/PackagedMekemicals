@@ -1,13 +1,5 @@
 package thelm.packagedmekemicals.event;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.event.config.ModConfigEvent;
@@ -16,13 +8,14 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import thelm.packagedauto.block.entity.BaseBlockEntity;
 import thelm.packagedauto.util.ApiImpl;
-import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
-import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
+import thelm.packagedmekemicals.block.PackagedMekemicalsBlocks;
+import thelm.packagedmekemicals.block.entity.PackagedMekemicalsBlockEntities;
 import thelm.packagedmekemicals.config.PackagedMekemicalsConfig;
-import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
+import thelm.packagedmekemicals.creativetab.PackagedMekemicalsCreativeTabs;
+import thelm.packagedmekemicals.item.PackagedMekemicalsItems;
+import thelm.packagedmekemicals.menu.PackagedMekemicalsMenus;
 import thelm.packagedmekemicals.packet.SetChemicalAmountPacket;
 import thelm.packagedmekemicals.volume.ChemicalVolumeType;
 import thelm.packagedmekemicals.volume.GasVolumeType;
@@ -42,31 +35,11 @@ public class CommonEventHandler {
 		modEventBus.register(this);
 		PackagedMekemicalsConfig.registerConfig();
 
-		DeferredRegister<Block> blockRegister = DeferredRegister.create(Registries.BLOCK, "packagedmekemicals");
-		blockRegister.register(modEventBus);
-		blockRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlock.INSTANCE);
-
-		DeferredRegister<Item> itemRegister = DeferredRegister.create(Registries.ITEM, "packagedmekemicals");
-		itemRegister.register(modEventBus);
-		itemRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlock.ITEM_INSTANCE);
-
-		DeferredRegister<BlockEntityType<?>> blockEntityRegister = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, "packagedmekemicals");
-		blockEntityRegister.register(modEventBus);
-		blockEntityRegister.register("chemical_package_filler", ()->ChemicalPackageFillerBlockEntity.TYPE_INSTANCE);
-
-		DeferredRegister<MenuType<?>> menuRegister = DeferredRegister.create(Registries.MENU, "packagedmekemicals");
-		menuRegister.register(modEventBus);
-		menuRegister.register("chemical_package_filler", ()->ChemicalPackageFillerMenu.TYPE_INSTANCE);
-
-		DeferredRegister<CreativeModeTab> creativeTabRegister = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, "packagedmekemicals");
-		creativeTabRegister.register(modEventBus);
-		creativeTabRegister.register("tab", ()->CreativeModeTab.builder().
-				title(Component.translatable("itemGroup.packagedmekemicals")).
-				icon(()->new ItemStack(ChemicalPackageFillerBlock.ITEM_INSTANCE)).
-				displayItems((parameters, output)->{
-					output.accept(ChemicalPackageFillerBlock.ITEM_INSTANCE);
-				}).
-				build());
+		PackagedMekemicalsBlocks.BLOCKS.register(modEventBus);
+		PackagedMekemicalsItems.ITEMS.register(modEventBus);
+		PackagedMekemicalsBlockEntities.BLOCK_ENTITIES.register(modEventBus);
+		PackagedMekemicalsMenus.MENUS.register(modEventBus);
+		PackagedMekemicalsCreativeTabs.CREATIVE_TABS.register(modEventBus);
 	}
 
 	@SubscribeEvent
@@ -81,9 +54,9 @@ public class CommonEventHandler {
 
 	@SubscribeEvent
 	public void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ChemicalPackageFillerBlockEntity.TYPE_INSTANCE, BaseBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PackagedMekemicalsBlockEntities.CHEMICAL_PACKAGE_FILLER.get(), BaseBlockEntity::getItemHandler);
 
-		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ChemicalPackageFillerBlockEntity.TYPE_INSTANCE, BaseBlockEntity::getEnergyStorage);
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, PackagedMekemicalsBlockEntities.CHEMICAL_PACKAGE_FILLER.get(), BaseBlockEntity::getEnergyStorage);
 	}
 
 	@SubscribeEvent

@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import thelm.packagedauto.util.MiscHelper;
 import thelm.packagedmekemicals.api.IChemicalStackWrapper;
 import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
+import thelm.packagedmekemicals.block.PackagedMekemicalsBlocks;
 
 public class ChemicalPackageFillingCategory implements IRecipeCategory<IChemicalStackWrapper> {
 
@@ -27,7 +28,7 @@ public class ChemicalPackageFillingCategory implements IRecipeCategory<IChemical
 
 	public ChemicalPackageFillingCategory(IGuiHelper guiHelper) {
 		background = guiHelper.createDrawable(PackagedMekemicalsJEIPlugin.BACKGROUND, 0, 0, 76, 26);
-		icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ChemicalPackageFillerBlock.INSTANCE));
+		icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, PackagedMekemicalsBlocks.CHEMICAL_PACKAGE_FILLER.toStack());
 	}
 
 	@Override

@@ -15,11 +15,9 @@ import net.minecraft.world.level.material.MapColor;
 import thelm.packagedauto.block.BaseBlock;
 import thelm.packagedauto.block.entity.BaseBlockEntity;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
+import thelm.packagedmekemicals.block.entity.PackagedMekemicalsBlockEntities;
 
 public class ChemicalPackageFillerBlock extends BaseBlock {
-
-	public static final ChemicalPackageFillerBlock INSTANCE = new ChemicalPackageFillerBlock();
-	public static final Item ITEM_INSTANCE = new BlockItem(INSTANCE, new Item.Properties());
 
 	protected ChemicalPackageFillerBlock() {
 		super(BlockBehaviour.Properties.of().strength(15F, 25F).mapColor(MapColor.METAL).sound(SoundType.METAL));
@@ -27,7 +25,7 @@ public class ChemicalPackageFillerBlock extends BaseBlock {
 
 	@Override
 	public ChemicalPackageFillerBlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return ChemicalPackageFillerBlockEntity.TYPE_INSTANCE.create(pos, state);
+		return PackagedMekemicalsBlockEntities.CHEMICAL_PACKAGE_FILLER.get().create(pos, state);
 	}
 
 	@Override
@@ -37,6 +35,6 @@ public class ChemicalPackageFillerBlock extends BaseBlock {
 
 	@Override
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
-		level.getBlockEntity(pos, ChemicalPackageFillerBlockEntity.TYPE_INSTANCE).ifPresent(ChemicalPackageFillerBlockEntity::updatePowered);
+		level.getBlockEntity(pos, PackagedMekemicalsBlockEntities.CHEMICAL_PACKAGE_FILLER.get()).ifPresent(ChemicalPackageFillerBlockEntity::updatePowered);
 	}
 }

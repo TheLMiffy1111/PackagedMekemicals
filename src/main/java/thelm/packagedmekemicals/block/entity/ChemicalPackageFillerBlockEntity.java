@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -25,15 +24,11 @@ import thelm.packagedauto.component.PackagedAutoDataComponents;
 import thelm.packagedauto.energy.EnergyStorage;
 import thelm.packagedauto.item.VolumePackageItem;
 import thelm.packagedauto.util.MiscHelper;
-import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.inventory.ChemicalPackageFillerItemHandler;
 import thelm.packagedmekemicals.menu.ChemicalPackageFillerMenu;
 import thelm.packagedmekemicals.util.ChemicalHelper;
 
 public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
-
-	public static final BlockEntityType<ChemicalPackageFillerBlockEntity> TYPE_INSTANCE = BlockEntityType.Builder.
-			of(ChemicalPackageFillerBlockEntity::new, ChemicalPackageFillerBlock.INSTANCE).build(null);
 
 	public static int energyCapacity = 5000;
 	public static int energyReq = 500;
@@ -49,7 +44,7 @@ public class ChemicalPackageFillerBlockEntity extends BaseBlockEntity {
 	public boolean activated = false;
 
 	public ChemicalPackageFillerBlockEntity(BlockPos pos, BlockState state) {
-		super(TYPE_INSTANCE, pos, state);
+		super(PackagedMekemicalsBlockEntities.CHEMICAL_PACKAGE_FILLER.get(), pos, state);
 		setItemHandler(new ChemicalPackageFillerItemHandler(this));
 		setEnergyStorage(new EnergyStorage(this, energyCapacity));
 	}
