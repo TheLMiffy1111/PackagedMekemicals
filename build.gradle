@@ -115,7 +115,7 @@ dependencies {
 	neoForge "net.neoforged:neoforge:21.1.62"
 
 	// Dependencies
-	implementation "curse.maven:packagedauto-308380:5846687"
+	implementation "curse.maven:packagedauto-308380:5846844"
 	implementation "mekanism:Mekanism:1.21.1-10.7.7.64"
 	implementation("mezz.jei:jei-1.21.1-neoforge:19.21.0.246") {transitive = false}
 	implementation "dev.emi:emi-neoforge:1.1.16+1.21.1"
