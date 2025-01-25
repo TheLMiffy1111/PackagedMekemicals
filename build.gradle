@@ -1,5 +1,5 @@
 plugins {
-	id "com.crystaelix.loom" version "jitpack-3a42c174"
+	id "com.crystaelix.loom" version "jitpack-ca3766c3"
 	id "eclipse"
 	id "idea"
 	id "maven-publish"
@@ -77,7 +77,7 @@ def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "1.2.2.7"
+version = "1.2.2.8"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -115,18 +115,18 @@ dependencies {
 	forge "net.minecraftforge:forge:1.20.1-47.3.7"
 
 	// Dependencies
-	modImplementation "curse.maven:packagedauto-308380:5846684"
-	modImplementation "mekanism:Mekanism:1.20.1-10.4.9.61"
-	modImplementation("mezz.jei:jei-1.20.1-forge:15.20.0.104") {transitive = false}
-	modImplementation "dev.emi:emi-forge:1.1.16+1.20.1"
-	modImplementation "appeng:appliedenergistics2-forge:15.2.13"
+	modImplementation "curse.maven:packagedauto-308380:6028185"
+	modImplementation "mekanism:Mekanism:1.20.1-10.4.13.69"
+	modImplementation("mezz.jei:jei-1.20.1-forge:15.20.0.106") {transitive = false}
+	modImplementation "dev.emi:emi-forge:1.1.19+1.20.1"
+	modImplementation "appeng:appliedenergistics2-forge:15.3.3"
 	modImplementation "curse.maven:applied-mekanistics-574300:4842281"
 	modImplementation "vazkii.patchouli:Patchouli:1.20.1-84-FORGE"
 
 	//Performance
 	modImplementation "curse.maven:yeetusexperimentus-635427:4680832"
 	implementation "io.github.llamalad7:mixinextras-forge:0.3.6"
-	modImplementation "curse.maven:modernfix-790626:5676014"
+	modImplementation "curse.maven:modernfix-790626:6025611"
 	modImplementation "curse.maven:ferritecore-429235:4810975"
 }
 

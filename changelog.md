@@ -1,1 +1,1 @@
-Change creative tab icon  
+Add Japanese translation  
