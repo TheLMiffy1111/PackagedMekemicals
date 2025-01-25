@@ -1,2 +1,1 @@
-Updated Mekanism  
-Bump to beta status  
+Add Japanese translation  
