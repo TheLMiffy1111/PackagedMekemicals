@@ -2,7 +2,7 @@
 	"itemGroup.packagedmekemicals": "PackagedMekemicals",
 
 	"block.packagedmekemicals.chemical_package_filler": "化学物質梱包充填機",
-	"block.packagedmekemicals.chemical_package_filler.redstone": "レッドストーンで有効化、開始",
+	"block.packagedmekemicals.chemical_package_filler.redstone": "レッドストーンで有効化して開始します",
 
 	"volume.packagedmekemicals.mekanism.gas": "ガス",
 	"volume.packagedmekemicals.mekanism.infuse_type": "注入タイプ",
