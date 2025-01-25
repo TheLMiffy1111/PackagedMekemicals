@@ -1,0 +1,14 @@
+{
+	"itemGroup.packagedmekemicals": "PackagedMekemicals",
+
+	"block.packagedmekemicals.chemical_package_filler": "化学物質梱包充填機",
+	"block.packagedmekemicals.chemical_package_filler.redstone": "レッドストーンで有効化して開始します",
+
+	"volume.packagedmekemicals.mekanism.gas": "ガス",
+	"volume.packagedmekemicals.mekanism.infuse_type": "注入タイプ",
+	"volume.packagedmekemicals.mekanism.pigment": "顔料",
+	"volume.packagedmekemicals.mekanism.slurry": "懸濁液",
+
+	"jei.category.packagedmekemicals.chemical_package_filling": "化学物質梱包充填",
+	"jei.category.packagedmekemicals.chemical_package_contents": "化学物質梱包内容"
+}
