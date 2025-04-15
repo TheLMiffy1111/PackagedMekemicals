@@ -59,6 +59,7 @@ public class ChemicalVolumeType implements IVolumeType {
 		return ModList.get().isLoaded("appmek");
 	}
 
+	@SuppressWarnings("removal")
 	@Override
 	public Optional<?> makeStackFromBase(Object volumeBase, int amount, DataComponentPatch patch) {
 		if(volumeBase instanceof Chemical chemical) {

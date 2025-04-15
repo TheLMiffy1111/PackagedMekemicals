@@ -1,0 +1,30 @@
+{
+	"name": "Chemical Package Filler",
+	"category": "packagedauto:core",
+	"icon": "packagedmekemicals:chemical_package_filler",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "The $(item)Chemical Package Filler/$ creates $(l:core/volume_package)Volume Packages/$ filled with chemicals.$(p)This machine requires power."
+		},
+		{
+			"type": "patchouli:spotlight",
+			"item": "packagedmekemicals:chemical_package_filler",
+			"link_recipe": true,
+			"title": "Usage",
+			"text": "To use the $(item)Chemical Package Filler/$, place next to a chemical container, and place a template chemical container inside.$(p)You can then specify the amount of chemical the created $(l:core/volume_package)Volume Package/$ should contain."
+		},
+		{
+			"type": "patchouli:text",
+			"title": "Usage (cont.)",
+			"text": "Finally, apply a redstone signal to the machine to create the package.$(p)The created package will be ejected into adjacent inventories."
+		},
+		{
+			"type": "patchouli:crafting",
+			"recipe": "packagedmekemicals:chemical_package_filler",
+			"title": "Crafting"
+		}
+	],
+	"read_by_default": true,
+	"sortnum": 13001
+}

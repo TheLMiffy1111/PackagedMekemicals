@@ -12,10 +12,8 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import thelm.packagedauto.util.MiscHelper;
 import thelm.packagedmekemicals.api.IChemicalStackWrapper;
-import thelm.packagedmekemicals.block.ChemicalPackageFillerBlock;
 import thelm.packagedmekemicals.block.PackagedMekemicalsBlocks;
 
 public class ChemicalPackageFillingCategory implements IRecipeCategory<IChemicalStackWrapper> {

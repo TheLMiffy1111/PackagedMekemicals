@@ -19,10 +19,10 @@ issueTrackerURL = "https://github.com/TheLMiffy1111/PackagedMekemicals/issues"
 
 [[dependencies.packagedmekemicals]]
 	modId = "packagedauto"
-	versionRange = "[4,)"
+	versionRange = "[4.0.4,)"
 	type = "required"
 
 [[dependencies.packagedmekemicals]]
 	modId = "mekanism"
-	versionRange = "[10.6,)"
+	versionRange = "[10.7.11,)"
 	type = "required"

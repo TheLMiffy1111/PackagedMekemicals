@@ -17,7 +17,7 @@ public class ChemicalVolumeStackProvider implements EmiStackProvider<Screen> {
 				containerScreen.getSlotUnderMouse() instanceof FalseCopyVolumeSlot volumeSlot) {
 			IVolumeStackWrapper volumeStack = volumeSlot.volumeInventory.getStackInSlot(volumeSlot.slotIndex);
 			if(volumeStack instanceof IChemicalStackWrapper chemicalVolumeStack) {
-				return new EmiStackInteraction(ChemicalEmiStack.create(chemicalVolumeStack.getChemical()), null, false);
+				return new EmiStackInteraction(new ChemicalEmiStack(chemicalVolumeStack.getChemical()), null, false);
 			}
 		}
 		return EmiStackInteraction.EMPTY;

@@ -1,6 +1,6 @@
 package thelm.packagedmekemicals.config;
 
-import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import thelm.packagedmekemicals.block.entity.ChemicalPackageFillerBlockEntity;
@@ -15,9 +15,9 @@ public class PackagedMekemicalsConfig {
 	public static ModConfigSpec.IntValue chemicalPackageFillerEnergyReq;
 	public static ModConfigSpec.IntValue chemicalPackageFillerEnergyUsage;
 
-	public static void registerConfig() {
+	public static void registerConfig(ModContainer modContainer) {
 		buildConfig();
-		ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.SERVER, serverSpec);
+		modContainer.registerConfig(ModConfig.Type.SERVER, serverSpec);
 	}
 
 	private static void buildConfig() {

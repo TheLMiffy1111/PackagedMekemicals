@@ -2,6 +2,7 @@ package thelm.packagedmekemicals.event;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -31,9 +32,9 @@ public class CommonEventHandler {
 		return INSTANCE;
 	}
 
-	public void onConstruct(IEventBus modEventBus) {
+	public void onConstruct(IEventBus modEventBus, ModContainer modContainer) {
 		modEventBus.register(this);
-		PackagedMekemicalsConfig.registerConfig();
+		PackagedMekemicalsConfig.registerConfig(modContainer);
 
 		PackagedMekemicalsBlocks.BLOCKS.register(modEventBus);
 		PackagedMekemicalsItems.ITEMS.register(modEventBus);
