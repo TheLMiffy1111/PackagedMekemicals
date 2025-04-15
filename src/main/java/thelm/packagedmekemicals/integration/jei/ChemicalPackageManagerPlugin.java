@@ -38,7 +38,7 @@ public class ChemicalPackageManagerPlugin implements IRecipeManagerPlugin {
 				}
 			}
 		}
-		if(ingredient instanceof ChemicalStack<?> stack) {
+		if(ingredient instanceof ChemicalStack<?>) {
 			switch(focus.getRole()) {
 			case INPUT: return List.of(ChemicalPackageFillingCategory.TYPE);
 			case OUTPUT: return List.of(ChemicalPackageContentsCategory.TYPE);

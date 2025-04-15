@@ -1,0 +1,14 @@
+{
+	"name": "PackagedMekemicals",
+	"category": "packagedauto:core",
+	"icon": "packagedmekemicals:chemical_package_filler",
+	"pages": [
+		{
+			"type": "patchouli:text",
+			"text": "$(#822)PackagedMekemicals/$ adds $(l:core/volume_package)Volume Packages/$ for $(#822)Mekanism/$ chemicals to $(#822)PackagedAuto/$."
+		}
+	],
+	"read_by_default": true,
+	"sortnum": 13000,
+	"entry_color": "882222"
+}
