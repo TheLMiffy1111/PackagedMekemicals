@@ -130,7 +130,7 @@ dependencies {
 	modImplementation "thelm.packagedauto:PackagedAuto-1.19.2:3.2.14.45"
 	modImplementation "mekanism:Mekanism:1.19.2-10.3.9.13"
 	modImplementation("mezz.jei:jei-1.19.2-forge:11.8.1.1034") {transitive = false}
-	modImplementation "dev.emi:emi-forge:1.1.21+1.19.2"
+	modImplementation "dev.emi:emi-forge:1.1.22+1.19.2"
 	modImplementation "appeng:appliedenergistics2-forge:12.9.12"
 	modImplementation "curse.maven:applied-mekanistics-574300:4734608"
 	modImplementation "vazkii.patchouli:Patchouli:1.19.2-77"
