@@ -82,7 +82,7 @@ def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "2.0.0.3"
+version = "2.0.0.4"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -123,20 +123,20 @@ dependencies {
 		officialMojangMappings()
 		parchment "org.parchmentmc.data:parchment-1.21.1:2024.11.17@zip"
 	}
-	neoForge "net.neoforged:neoforge:21.1.170"
+	neoForge "net.neoforged:neoforge:21.1.180"
 
 	// Dependencies
-	implementation "thelm.packagedauto:PackagedAuto-1.21.1:4.0.4.11"
+	implementation "thelm.packagedauto:PackagedAuto-1.21.1:4.0.4.12"
 	implementation "mekanism:Mekanism:1.21.1-10.7.14.79"
-	implementation("mezz.jei:jei-1.21.1-neoforge:19.21.1.305") {transitive = false}
+	implementation("mezz.jei:jei-1.21.1-neoforge:19.21.2.313") {transitive = false}
 	implementation "dev.emi:emi-neoforge:1.1.22+1.21.1"
-	implementation "org.appliedenergistics:appliedenergistics2:19.2.10"
+	implementation "org.appliedenergistics:appliedenergistics2:19.2.12"
 	implementation "curse.maven:ae2-jei-integration-1074338:5748513"
 	implementation "curse.maven:applied-mekanistics-574300:5978711"
 
 	//Performance
 	implementation "curse.maven:yeetusexperimentus-635427:5444189"
-	implementation "curse.maven:modernfix-790626:6392739"
+	implementation "curse.maven:modernfix-790626:6609557"
 	implementation "curse.maven:ferritecore-429235:5850121"
 }
 
