@@ -23,7 +23,7 @@ public class ChemicalPackageFillerBlock extends BaseBlock {
 	public static final Item ITEM_INSTANCE = new BlockItem(INSTANCE, new Item.Properties().tab(PackagedMekemicals.CREATIVE_TAB)).setRegistryName("packagedmekemicals:chemical_package_filler");
 
 	protected ChemicalPackageFillerBlock() {
-		super(BlockBehaviour.Properties.of(Material.METAL).strength(15F, 25F).sound(SoundType.METAL));
+		super(BlockBehaviour.Properties.of(Material.METAL).strength(15F, 15F).sound(SoundType.METAL));
 		setRegistryName("packagedmekemicals:chemical_package_filler");
 	}
 
