@@ -126,7 +126,7 @@ dependencies {
 	neoForge "net.neoforged:neoforge:21.1.180"
 
 	// Dependencies
-	implementation "thelm.packagedauto:PackagedAuto-1.21.1:4.0.5.13"
+	implementation "thelm.packagedauto:PackagedAuto-1.21.1:4.0.5.14"
 	implementation "mekanism:Mekanism:1.21.1-10.7.14.79"
 	implementation("mezz.jei:jei-1.21.1-neoforge:19.21.2.313") {transitive = false}
 	implementation "dev.emi:emi-neoforge:1.1.22+1.21.1"
