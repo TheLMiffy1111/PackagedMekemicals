@@ -15,6 +15,7 @@ public class PackagedMekemicalsConfig {
 	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyReq;
 	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyUsage;
 
+	@SuppressWarnings("removal")
 	public static void registerConfig() {
 		buildConfig();
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, serverSpec);
