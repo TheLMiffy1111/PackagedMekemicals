@@ -128,7 +128,7 @@ dependencies {
 	// Dependencies
 	implementation "thelm.packagedauto:PackagedAuto-1.21.1:4.0.5.14"
 	implementation "mekanism:Mekanism:1.21.1-10.7.14.79"
-	implementation("mezz.jei:jei-1.21.1-neoforge:19.22.0.315") {transitive = false}
+	implementation("mezz.jei:jei-1.21.1-neoforge:19.22.1.316") {transitive = false}
 	implementation "dev.emi:emi-neoforge:1.1.22+1.21.1"
 	implementation "org.appliedenergistics:appliedenergistics2:19.2.13"
 	implementation "curse.maven:ae2-jei-integration-1074338:5748513"
