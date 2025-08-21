@@ -2,13 +2,11 @@ package thelm.packagedmekemicals.volume;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.api.IChemicalStackWrapper;
@@ -66,12 +64,12 @@ public record SlurryStackWrapper(SlurryStack stack) implements IChemicalStackWra
 
 	@Override
 	public Component getAmountDesc() {
-		return new TextComponent(stack.getAmount()+"mB");
+		return new TranslatableComponent("amount.packagedauto.mb", stack.getAmount());
 	}
 
 	@Override
 	public List<Component> getTooltip() {
-		return Lists.newArrayList(stack.getTextComponent());
+		return List.of(stack.getTextComponent());
 	}
 
 	@Override
