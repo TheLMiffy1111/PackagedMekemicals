@@ -82,7 +82,7 @@ def specVersion = "2"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "2.0.0.5"
+version = "2.0.0.6"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -126,7 +126,7 @@ dependencies {
 	neoForge "net.neoforged:neoforge:21.1.194"
 
 	// Dependencies
-	implementation "thelm.packagedauto:PackagedAuto-1.21.1:4.0.5.15"
+	implementation "thelm.packagedauto:PackagedAuto-1.21.1:4.0.6.16"
 	implementation "mekanism:Mekanism:1.21.1-10.7.14.79"
 	implementation("mezz.jei:jei-1.21.1-neoforge:19.22.1.316") {transitive = false}
 	implementation "dev.emi:emi-neoforge:1.1.22+1.21.1"

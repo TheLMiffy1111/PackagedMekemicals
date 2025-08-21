@@ -2,7 +2,6 @@ package thelm.packagedmekemicals.volume;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 
 import mekanism.api.MekanismAPI;
@@ -76,12 +75,12 @@ public record ChemicalStackWrapper(ChemicalStack stack) implements IChemicalStac
 
 	@Override
 	public Component getAmountDesc() {
-		return Component.literal(stack.getAmount()+"mB");
+		return Component.translatable("amount.packagedauto.mb", stack.getAmount());
 	}
 
 	@Override
 	public List<Component> getTooltip() {
-		return Lists.newArrayList(stack.getTextComponent());
+		return List.of(stack.getTextComponent());
 	}
 
 	@Override
