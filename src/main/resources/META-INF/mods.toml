@@ -19,7 +19,7 @@ issueTrackerURL = "https://github.com/TheLMiffy1111/PackagedMekemicals/issues"
 
 [[dependencies.packagedmekemicals]]
 	modId = "packagedauto"
-	versionRange = "[3.4.11,)"
+	versionRange = "[3.4.13,)"
 	mandatory = true
 
 [[dependencies.packagedmekemicals]]

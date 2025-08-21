@@ -2,8 +2,6 @@ package thelm.packagedmekemicals.volume;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.slurry.SlurryStack;
 import net.minecraft.nbt.CompoundTag;
@@ -65,12 +63,12 @@ public record SlurryStackWrapper(SlurryStack stack) implements IChemicalStackWra
 
 	@Override
 	public Component getAmountDesc() {
-		return Component.literal(stack.getAmount()+"mB");
+		return Component.translatable("amount.packagedauto.mb", stack.getAmount());
 	}
 
 	@Override
 	public List<Component> getTooltip() {
-		return Lists.newArrayList(stack.getTextComponent());
+		return List.of(stack.getTextComponent());
 	}
 
 	@Override
