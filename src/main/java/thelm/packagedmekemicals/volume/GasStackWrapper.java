@@ -63,7 +63,7 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 
 	@Override
 	public Component getAmountDesc() {
-		return Component.translatable("amount.packagedauto.mb", stack.getAmount());
+		return Component.literal(stack.getAmount()+"mB");
 	}
 
 	@Override
