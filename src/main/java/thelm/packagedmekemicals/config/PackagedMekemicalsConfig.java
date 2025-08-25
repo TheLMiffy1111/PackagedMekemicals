@@ -14,6 +14,7 @@ public class PackagedMekemicalsConfig {
 	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyCapacity;
 	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyReq;
 	public static ForgeConfigSpec.IntValue chemicalPackageFillerEnergyUsage;
+	public static ForgeConfigSpec.IntValue chemicalPackageFillerRefreshInterval;
 
 	public static void registerConfig() {
 		buildConfig();
@@ -30,6 +31,8 @@ public class PackagedMekemicalsConfig {
 		chemicalPackageFillerEnergyReq = builder.defineInRange("energy_req", 500, 0, Integer.MAX_VALUE);
 		builder.comment("How much FE/t maximum the Chemical Package Filler can use.");
 		chemicalPackageFillerEnergyUsage = builder.defineInRange("energy_usage", 100, 0, Integer.MAX_VALUE);
+		builder.comment("How many ticks should the Chemical Package Filler wait between each refresh.");
+		chemicalPackageFillerRefreshInterval = builder.defineInRange("refresh_interval", 4, 1, 40);
 		builder.pop();
 
 		serverSpec = builder.build();
@@ -39,5 +42,6 @@ public class PackagedMekemicalsConfig {
 		ChemicalPackageFillerBlockEntity.energyCapacity = chemicalPackageFillerEnergyCapacity.get();
 		ChemicalPackageFillerBlockEntity.energyReq = chemicalPackageFillerEnergyReq.get();
 		ChemicalPackageFillerBlockEntity.energyUsage = chemicalPackageFillerEnergyUsage.get();
+		ChemicalPackageFillerBlockEntity.refreshInterval = chemicalPackageFillerRefreshInterval.get();
 	}
 }
