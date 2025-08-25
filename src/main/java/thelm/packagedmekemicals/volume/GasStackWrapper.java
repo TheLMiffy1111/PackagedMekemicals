@@ -6,7 +6,7 @@ import mekanism.api.chemical.ChemicalStack;
 import mekanism.api.chemical.gas.GasStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.TextComponent;
 import thelm.packagedauto.api.IVolumeStackWrapper;
 import thelm.packagedauto.api.IVolumeType;
 import thelm.packagedmekemicals.api.IChemicalStackWrapper;
@@ -64,7 +64,7 @@ public record GasStackWrapper(GasStack stack) implements IChemicalStackWrapper {
 
 	@Override
 	public Component getAmountDesc() {
-		return new TranslatableComponent("amount.packagedauto.mb", stack.getAmount());
+		return new TextComponent(stack.getAmount()+"mB");
 	}
 
 	@Override

@@ -19,7 +19,7 @@ public class ChemicalPackageFillerItemHandler extends BaseItemHandler<ChemicalPa
 		return switch(index) {
 		case 1 -> false;
 		case 2 -> stack.getCapability(CapabilityEnergy.ENERGY).isPresent();
-		default -> (blockEntity.isWorking ? !getStackInSlot(index).isEmpty() : true) && ChemicalHelper.INSTANCE.hasChemicalHandler(stack);
+		default -> (!blockEntity.isWorking || !getStackInSlot(index).isEmpty()) && ChemicalHelper.INSTANCE.hasChemicalHandler(stack);
 		};
 	}
 
