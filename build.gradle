@@ -73,7 +73,7 @@ def specVersion = "1"
 def vendor = "thelm"
 
 group = "thelm.packagedmekemicals"
-version = "1.0.2.20"
+version = "1.0.2.21"
 
 archivesBaseName = "${modName}-${mcVersion}"
 
@@ -117,7 +117,7 @@ dependencies {
 	forge "net.minecraftforge:forge:1.18.2-40.3.11"
 
 	// Dependencies
-	modImplementation "thelm.packagedauto:PackagedAuto-1.18.2:3.1.16.62"
+	modImplementation "thelm.packagedauto:PackagedAuto-1.18.2:3.1.16.63"
 	modImplementation "mekanism:Mekanism:1.18.2-10.2.5.465"
 	modImplementation("mezz.jei:jei-1.18.2-forge:10.2.1.1009") {transitive = false}
 	modImplementation "appeng:appliedenergistics2-forge:11.7.6"

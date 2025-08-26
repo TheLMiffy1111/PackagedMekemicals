@@ -1,1 +1,3 @@
-Raise settable volume stack limit to 1 billion  
+Add refresh interval config  
+Remove unnecessary chemical package filler item condition  
+Revert adding mB translation key  
