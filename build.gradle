@@ -115,7 +115,7 @@ dependencies {
 	forge "net.minecraftforge:forge:1.18.2-40.3.12"
 
 	// Dependencies
-	modImplementation "thelm.packagedauto:PackagedAuto-1.18.2:3.1.17.66"
+	modImplementation "thelm.packagedauto:PackagedAuto-1.18.2:3.1.18.67"
 	modImplementation "mekanism:Mekanism:1.18.2-10.2.5.465"
 	modImplementation("mezz.jei:jei-1.18.2-forge:10.2.1.1009") {transitive = false}
 	modImplementation "appeng:appliedenergistics2-forge:11.7.6"
