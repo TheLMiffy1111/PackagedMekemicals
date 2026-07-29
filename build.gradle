@@ -4,7 +4,7 @@ plugins {
 	id "idea"
 	id "maven-publish"
 	id "com.crystaelix.blossom" version "1.3.2"
-	id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+	id "me.modmuss50.mod-publish-plugin" version "2.1.1"
 }
 
 repositories {
@@ -128,7 +128,7 @@ dependencies {
 	modImplementation "thelm.packagedauto:PackagedAuto-1.19.2:3.2.18.56"
 	modImplementation "mekanism:Mekanism:1.19.2-10.3.9.13"
 	modImplementation("mezz.jei:jei-1.19.2-forge:11.8.1.1034") {transitive = false}
-	modImplementation "dev.emi:emi-forge:1.1.22+1.19.2"
+	modImplementation "dev.emi:emi-forge:1.1.24+1.19.2"
 	modImplementation "appeng:appliedenergistics2-forge:12.9.12"
 	modImplementation "curse.maven:applied-mekanistics-574300:4734608"
 	modImplementation "vazkii.patchouli:Patchouli:1.19.2-77"
@@ -206,6 +206,8 @@ publishMods {
 		accessToken = providers.gradleProperty("curseforge.token")
 		projectId = "609886"
 		minecraftVersions.add(mcVersion)
+		client = true
+		server = true
 		requires "packagedauto", "mekanism"
 		optional "applied-energistics-2", "applied-mekanistics"
 	}
