@@ -58,6 +58,7 @@ public class ChemicalPackageFillerScreen extends BaseScreen<ChemicalPackageFille
 			try {
 				int amount = Mth.clamp(Integer.parseInt(amountField.getValue()), 0, 1000000000);
 				if(amount != menu.blockEntity.requiredAmount) {
+					menu.blockEntity.requiredAmount = amount;
 					PacketDistributor.sendToServer(new SetChemicalAmountPacket(amount));
 				}
 			}
